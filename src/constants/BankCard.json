@@ -1,0 +1,42 @@
+[
+    {
+        "id":1,
+        "curBalance":"$12.432.32",
+        "numberCard":"**** **** **** 1505",
+        "holder":"Laurel Bailey",
+        "expires":"05/20",
+        "bank":"BankX"
+    },
+    {
+        "id":2,
+        "curBalance":"$12.432.32",
+        "numberCard":"**** **** **** 1505",
+        "holder":"Laurel Bailey",
+        "expires":"05/20",
+        "bank":"BankX"
+    },
+    {
+        "id":3,
+        "curBalance":"$12.432.32",
+        "numberCard":"**** **** **** 1502",
+        "holder":"Laurel Bailey",
+        "expires":"05/20",
+        "bank":"BankX"
+    },
+    {
+        "id":4,
+        "curBalance":"$12.432.32",
+        "numberCard":"**** **** **** 1503",
+        "holder":"Laurel Bailey",
+        "expires":"05/20",
+        "bank":"BankX"
+    },
+    {
+        "id":5,
+        "curBalance":"$12.432.32",
+        "numberCard":"**** **** **** 1504",
+        "holder":"Laurel Bailey",
+        "expires":"05/20",
+        "bank":"BankX"
+    }
+]
