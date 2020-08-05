@@ -5,24 +5,24 @@ import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
-import {Feather} from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons'; 
 
-export default Header = (props)=> {
+const Header = (props)=> {
     return(
         <View style={styles.headerContainer}>
             
           
            {props.iconLeft? <TouchableOpacity style={styles.headerNavigation} onPress={props.onPressLeft}>
-                <Feather name={props.iconLeft} size='30' color='white'/>
-            </TouchableOpacity>:<Text></Text>}
+                <Ionicons name={props.iconLeft} size={30} color='#000'/>
+            </TouchableOpacity>:<Text/>}
             
             {props.title?<Text style={styles.headerContent}>
                 {props.title.toUpperCase()}
-            </Text>:<Text></Text>}
+            </Text>:<Text/>}
 
             {props.iconRight?<TouchableOpacity style={styles.headerNavigation} onPress={props.onPressRight}>
-                <Feather name={props.iconRight} size='30'/>
-            </TouchableOpacity>:<Text></Text>}
+                <Ionicons name={props.iconRight} size={30} color='#000'/>
+            </TouchableOpacity>:<Text/>}
 
         </View>
     )
@@ -30,17 +30,24 @@ export default Header = (props)=> {
 
 const styles=StyleSheet.create({
     headerContainer:{
-        backgroundColor:'#000',
+        backgroundColor:'#fff',
+        elevation:5,
         height:80,
-        flexDirection:'row'
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        paddingHorizontal:10
     },
     headerNavigation:{
-
+        
     },
     headerContent:{
-        color:'#fff',
+        color:'#000',
         fontWeight:'bold',
         fontSize:30,
-        textAlign:'center'
+        textAlign:'center',
+        
     }
 })
+
+export default Header;

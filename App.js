@@ -1,15 +1,16 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View,Text, StyleSheet} from 'react-native';
 
 import LoginScreen from './src/screens/LoginScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import MenuScreen from './src/screens/MenuScreen';
 
+//style={styles.container}
 
 export default function App() {
   return (
-    <View style={styles.container}>
-    <LoginScreen/>
-    </View>
+      <Text>App js</Text>
   );
 }
 

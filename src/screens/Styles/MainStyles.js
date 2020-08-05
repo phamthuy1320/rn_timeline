@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         flex:1,
         width:'100%',
         justifyContent:'center',
-        backgroundColor:'#04405a'
+        backgroundColor:'#fff'
     },
     welcomeContainer:{
         justifyContent:'center',
@@ -23,17 +23,16 @@ export const styles = StyleSheet.create({
         alignContent:'center'
     },
     input:{
-        borderWidth:1,
         height:50,
         width:'90%',
         borderRadius:25,
-        borderColor:'#475980',
-        backgroundColor:'#475980',
+        backgroundColor:'grey',
+        elevation:4,
         margin:10,
         paddingLeft:20,
         fontWeight:'bold',
         fontSize:16,
-        color:'#fff'
+        color:'#000'
     },
     button:{
         height:50,
@@ -49,7 +48,7 @@ export const styles = StyleSheet.create({
         textAlign:'center',
         fontSize:20,
         fontWeight:'bold',
-        color:'#fff',
+        color:'#000',
     },
     othersContainer:{
         justifyContent:'center',
@@ -57,7 +56,7 @@ export const styles = StyleSheet.create({
     },
     other:{
         textAlign:'center',
-        color:'#fff',
+        color:'#000',
         fontWeight:'bold',
     },
 

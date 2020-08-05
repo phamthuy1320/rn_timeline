@@ -9,12 +9,13 @@ import {
 
 import {styles} from './Styles/MainStyles';
 import Button from '../components/Button';
+import {useNavigation} from '@react-navigation/native'
 
 
 export default function LoginScreen() {
     const [email,setEmail]= useState('');
     const [password,setPassword] = useState(''); 
-
+    const navigation = useNavigation();
     return(
         <View 
             style={styles.container}
@@ -45,10 +46,10 @@ export default function LoginScreen() {
             </TouchableOpacity>
             
 
-           <Button onPress={()=>{alert('Login')}} label='Login'/>
+           <Button onPress={()=>navigation.navigate('HomeScreen')}/>
             
 
-            <TouchableOpacity style={styles.others} onPress={()=>{alert('sign up')}}>
+            <TouchableOpacity style={styles.others} onPress={()=>navigation.navigate('SignUpScreen')}>
                 <Text style={styles.other}>Sign up</Text>
             </TouchableOpacity>
             
