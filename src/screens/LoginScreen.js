@@ -9,10 +9,17 @@ import {
 
 import {styles} from './Styles/MainStyles';
 import Button from '../components/Button';
-import {useNavigation} from '@react-navigation/native'
+import {createStackNavigator} from '@react-navigation/stack';
+import {useNavigation, NavigationContainer} from '@react-navigation/native';
+
+import SignUpScreen from './SignUpScreen';
+import HomeScreen from './HomeScreen';
+import Header from '../components/Header';
+const Stack = createStackNavigator();
 
 
-export default function LoginScreen() {
+
+function Login() {
     const [email,setEmail]= useState('');
     const [password,setPassword] = useState(''); 
     const navigation = useNavigation();
@@ -46,7 +53,7 @@ export default function LoginScreen() {
             </TouchableOpacity>
             
 
-           <Button onPress={()=>navigation.navigate('HomeScreen')}/>
+           <Button title = 'Login' onPress={()=>navigation.navigate('HomeScreen')}/>
             
 
             <TouchableOpacity style={styles.others} onPress={()=>navigation.navigate('SignUpScreen')}>
@@ -54,5 +61,49 @@ export default function LoginScreen() {
             </TouchableOpacity>
             
         </View>
+    );
+}
+
+export default function LoginScreen(){
+    return (
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen
+                    name='LoginScreen'
+                    component={Login}
+                    options = {
+                        {headerTitle:'',
+                        headerStyle:{
+                            height:0
+                        }
+                    }
+                    }
+                />
+                <Stack.Screen
+                    name='SignUpScreen'
+                    component={SignUpScreen}
+                    options={{
+                        headerTitle:'',
+                        headerStyle:{
+                            height:0
+                        },
+                        headerLeft:''
+                    }}
+                />
+                <Stack.Screen
+                    name='HomeScreen'
+                    component = {HomeScreen}
+                    options={
+                        {headerTitle:'',
+                        headerStyle:{
+                            height:0
+                        },
+                        headerLeft:''
+                    }
+                    }
+                />      
+            </Stack.Navigator>
+        </NavigationContainer>
+        
     );
 }

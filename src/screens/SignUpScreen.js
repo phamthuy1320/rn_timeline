@@ -1,14 +1,15 @@
-import React,{useState,useCallback,useEffect,useMemo} from 'react';
-import {View,TextInput,Text} from 'react-native';
+import React,{useState,useEffect} from 'react';
+import {View,TextInput,Text,TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import {styles} from './Styles/MainStyles';
 import Button from '../components/Button';
-import Header from '../components/Header';
-//import {Feather} from 'react-native-vector-icons';
-import BankCard from '../components/BankCard';
-
 
 //alert?
+function checkFillError({e,p,r}){
+    if(e==''||p==''||r=='') return true;
+    return false;
+}
 
 export default function SignUpScreen(){
     const [email,setEmail]= useState('');
@@ -17,34 +18,26 @@ export default function SignUpScreen(){
     const [alertem,setAlertem] = useState('');
     const [alertpw,setAlertpw] = useState('');
     const [alertrpw,setAlertrpw] = useState('');
-    const [success,setSuccess] = useState(false);
+
+    const navigation = useNavigation();
 
     const cp =  useEffect(()=>{
-            setSuccess(false);
             email==''?setAlertem('please fill email'):setAlertem('');
             password==''?setAlertpw('please fill password'):setAlertpw('');
-            repassword==''?setAlertrpw('please fill verify password'):setAlertrpw('');
-    })
-
-    return(
+            repassword ==''?setAlertrpw('please fill verify password'):setAlertrpw('');
+    });
+    return (
     <View style={styles.container}>
-        {/*<BankCard
-            curBalance='$123456789'
-            numberCard='123456789'
-            holder='Pham Thuy'
-            expires='08/2020'
-        />*/}
         <View style={styles.welcomeContainer}>
             <Text style={styles.welcome}>
                 Welcome to Sign up
             </Text>
         </View>
-        
         <View style = {styles.inputContainer}>
             <TextInput
                 style={styles.input}
                 onChangeText={text=>setEmail(text)}
-                placeholder='Email...'
+                placeholder = 'Email...'
                 value={email}
             />
             <Text style={styles.alert}>{alertem}</Text>
@@ -66,8 +59,11 @@ export default function SignUpScreen(){
 
         <Button onPress={()=>{
             cp;
-            (password==repassword)?alert('successed'):alert('failed')
-        }} label='Sign Up'/>
+            (password==repassword&&checkFillError({email,password,repassword})==false)?alert('successed,press "return to Login" to Login '):alert('failed')
+        }} title='Sign Up'/>
+       <TouchableOpacity onPress={()=>navigation.goBack()}>
+           <Text style={{textAlign:'center',fontWeight:'bold'}}>Return to Login</Text>
+       </TouchableOpacity>
 
     </View>);
 }

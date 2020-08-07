@@ -1,16 +1,11 @@
 import React from 'react';
 import {View,Text, StyleSheet} from 'react-native';
-
-import LoginScreen from './src/screens/LoginScreen';
-import SignUpScreen from './src/screens/SignUpScreen';
-import HomeScreen from './src/screens/HomeScreen';
-import MenuScreen from './src/screens/MenuScreen';
-
+import AppNavigation from './src/navigations/AppNavigation';
 //style={styles.container}
 
 export default function App() {
   return (
-      <Text>App js</Text>
+    <AppNavigation/>
   );
 }
 

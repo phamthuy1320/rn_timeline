@@ -10,8 +10,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const Header = (props)=> {
     return(
         <View style={styles.headerContainer}>
-            
-          
            {props.iconLeft? <TouchableOpacity style={styles.headerNavigation} onPress={props.onPressLeft}>
                 <Ionicons name={props.iconLeft} size={30} color='#000'/>
             </TouchableOpacity>:<Text/>}

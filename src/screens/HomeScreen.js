@@ -1,4 +1,4 @@
-import React ,{useState}from 'react';
+import React ,{useState} from 'react';
 import {
     Image,
     Text, 
@@ -11,21 +11,40 @@ import {
 } from 'react-native';
 //import { styles } from './Styles/MainStyles';
 import Header from '../components/Header';
-//import Feather from 'react-native-vector-icons/Feather'
+import {useNavigation,NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
+
+import DetailScreen from './DetailScreen';
 
 const DATA = require('../constants/Profile.json');
-//{uri, name,status,}
+const Stack = createStackNavigator();
 
 const Item = (props) =>{
+    const State = (active) =>{
+        if(active =='active'.toString())
+            {return  <FontAwesome name ='circle' size={15} color='green'/>}
+        if (active == 'busy'){
+            return <FontAwesome name ='circle' size={15} color='yellow'/>
+        }
+       if (active =='no active')
+            {return <FontAwesome name ='circle' size={15} color='red'/>}
+        }
     return (
-        <TouchableOpacity style={styles.itemContainer}>
+        <TouchableOpacity style={styles.itemContainer} onPress = {props.onPress}>
             <View style={styles.avatarContainer}>
-                <Image
-                    source = {{uri: props.uri}}
-                    style={styles.imageAvatar}
-                /> 
-                <Text style={styles.active}>{props.active}</Text>
+                <View style={styles.avatarContainer}>
+                    <Image
+                        source = {{uri: props.uri}}
+                        style={styles.imageAvatar}
+                    /> 
+                    <View style = {styles.active}>
+                        {State(props.active)}
+                    </View>
+                </View>
             </View>
+            
             <View style={{alignSelf:'center'}}>
                 <Text style={styles.name}>{props.name}</Text>
                 <Text style={styles.status}>{props.status}</Text>
@@ -34,16 +53,18 @@ const Item = (props) =>{
     );
 }
 
-const ListContact = () =>{
+const ListContact = (props) =>{
+    const navigation = useNavigation();
     return (
         <ScrollView>
-            {DATA.map((item)=>
+            {props.data.map((item)=>
             <Item 
                 key={item.id+Math.random()}
                 uri={item.avatar}
                 name={item.name} 
                 active={item.active} 
                 status={item.status} 
+                onPress = {()=>navigation.navigate('DetailScreen',{background:item.avatar, avatar:item.avatar,name:item.name, active:item.active,status:item.status})}
             />)}
         </ScrollView> 
 
@@ -51,22 +72,61 @@ const ListContact = () =>{
 }
 
 
-export default function HomeScreen(){
+function Home(){
     const [dataContact,setDataContact] = useState(DATA);
+    const navigation = useNavigation();
+    const Add = ({item}) =>{
+        let arr = [...dataContact];
+        arr.push(item);
+        return arr;
+    }
+    
+    const Edit = ({item,newItem}) =>{
+        let arr = [...dataContact];
+        arr.find(item);
+        arr = arr.filter(({i})=>{return i!=item});
+        arr.push(newItem);
+        return arr;
+    }
+    
+    const Delete = ({item}) =>{
+        let arr = [...dataContact];
+         arr = arr.filter(({i})=>{return i!=item});
+        return arr;
+    }
     return (
         <View style={styles.container}>
             <Header 
                 title='contacts' 
                 iconLeft='menu'
                 iconRight='search'
-                onPressLeft={()=>alert('draw navigation')}
+                onPressLeft={()=>navigation.popToTop()}
                 onPressRight={()=>alert('Search tab')}
             />
-            <ListContact/>
-            <View style={styles.transactions}>
-
+            <ListContact data ={dataContact}/>
+            <View style = {{borderRadius:50,elevation:4}}>
+                <Feather name = 'edit-2' size = {50} />
             </View>
         </View>
+    )
+}
+
+export default function HomeScreen(){
+    return (
+
+        <Stack.Navigator>
+            <Stack.Screen 
+                name = 'Home'
+                component = {Home}
+                options = {{
+                    headerTitle:'',
+                }}
+            />
+            <Stack.Screen
+                name = 'DetailScreen'
+                component = {DetailScreen}
+            />
+        </Stack.Navigator>
     )
 }
 
@@ -92,9 +152,6 @@ const styles=StyleSheet.create({
         borderRadius:50,
         margin:10
     },
-    active:{
-
-    },
     name:{
         fontSize:20,
         marginBottom:10,
@@ -103,6 +160,13 @@ const styles=StyleSheet.create({
     },
     status:{
         
-    }
+    },
+    active:{
+        position:'relative',
+        bottom:22,
+        left:19,
+        alignSelf:'center',
+
+    },
 
 })
