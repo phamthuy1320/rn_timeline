@@ -2,6 +2,7 @@
 //BankCard
 //Item product
  import React from 'react';
+ import {useNavigation} from '@react-navigation/native';
  import {View,Text,TouchableOpacity,StyleSheet,FlatList, ScrollView,Image} from 'react-native';
  import AntDesign from 'react-native-vector-icons/AntDesign';
  import Header from '../components/Header';
@@ -16,7 +17,7 @@
                 data={BankCardData}
                 horizontal={true}
                 renderItem={
-                    ({item})=> 
+                    ({item,idx})=> 
                     <BankCard
                         key={item.id}
                         curBalance={item.curBalance}
@@ -27,7 +28,7 @@
                     />
                 }
                 ItemSeparatorComponent={()=><View style={{marginVertical:10}}/>}
-                keyExtractor={(item)=>item.id}
+                keyExtractor={(item,idx)=>idx.toString()}
             />
      )
  }
@@ -76,12 +77,13 @@ const Transaction = () =>{
                     />
                     </View>
                 }
-                keyExtractor={(item)=>item.name}
+                keyExtractor={(item,idx)=>item.name+idx.toString()}
             />
     )
 }
 
  export default function MenuScreen(){
+     const navigation = useNavigation();
      return (
          <View style={styles.container}>
              <View style={styles.horizontalList}>
@@ -89,11 +91,13 @@ const Transaction = () =>{
                     title = 'My Cards'
                     iconLeft = 'menu'
                     iconRight = 'add-circle-outline'
-                    onPressLeft={()=>alert('draw navigation')}
+                    onPressLeft={()=>navigation.goBack()}
                 />
                 <ListCard/>
+        
                 <View style={styles.headerTransactions}>
-                    <Text style={{fontSize:30}}>Transactions</Text>
+                    
+                   <Text style={{fontSize:30}}>Transactions</Text>
                     <AntDesign name='swap' size={30} />
                 </View>
 

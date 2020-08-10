@@ -1,52 +1,76 @@
-import React from 'react';
-import {View,Image, Text,StyleSheet,ScrollView} from 'react-native';
+import React,{useState, useEffect} from 'react';
+import {View, Text,StyleSheet,ScrollView,Image} from 'react-native';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import Header from '../components/Header';
 //Detail item for HomeScreen
+const ActiveState = ({active})=>{
+    if (active =='active'){return  <FontAwesome name ='circle' size={20} color='green'/>}
+    if (active == 'busy'){
+        return <FontAwesome name ='circle' size={20} color='yellow'/>
+    }
+   if (active =='no active')
+        {return <FontAwesome name ='circle' size={20} color='red'/>}
+    };
 
-
-export default function DetailScreen(){
+const Status = ({content})=>{
+    return (
+    <ScrollView>
+        <Text style={styles.status}>{content}</Text>
+    </ScrollView>
+    )
+}
+/*export default function DetailScreen(){
     const route = useRoute();
     const navigation = useNavigation();
-    const ActiveState = (active) =>{
-        if (active =='active'){return  <FontAwesome name ='circle' size={20} color='green'/>}
-        if (active == 'busy'){
-            return <FontAwesome name ='circle' size={20} color='yellow'/>
-        }
-       if (active =='no active')
-            {return <FontAwesome name ='circle' size={20} color='red'/>}
-        };
-    const Status = (props) =>{
-        return (
-        <ScrollView>
-            <Text style={styles.status}>{props.content}</Text>
-        </ScrollView>
-        )
-    }
+
+
+    let {_name} = route.params;
+    let {_background} = route.params;
+    let {_avatar} = route.params;
+    let {_active} = route.params;
+    let {_status} = route.params;
     return (
         <View style={styles.detailContainer}>
             <Header
-                title = {route.params.name}
+                title = {_name?_name:'detail'}
                 iconLeft = 'angle-left'
                 onPressLeft = {()=>navigation.goBack()}
-            />
-            <Image
-                    source = {{uri:route.params.background}}
+           />
+            {_background?<Image
+                    source = {{uri:_background}}
                     style={styles.detailBackground}
-                /> 
+                />:null }
             <View style={styles.avatarContainer}>
-                <Image
-                    source = {{uri:route.params.avatar}}
+                {_avatar?<Image
+                    source = {{uri:_avatar}}
                     style={styles.detailAvatar}
-                /> 
+                />:null }
                 <View style = {styles.active}>
-                    {ActiveState(route.params.active)}
+                    {_active?<ActiveState active = {_active}/>:null}
                 </View>
-                <Text style={styles.name}>{route.params.name}</Text> 
+                <Text style={styles.name}>{_name?_name:'detail'}</Text> 
             </View>
-            <Status content = {route.params.status}/>
+            <Status content = {_status?_status:'this is detail'}/>
+        </View>
+        
+    )
+}*/
+export default function DetailScreen(){
+    const navigation=useNavigation();
+    return (
+        <View style={styles.detailContainer}>
+            <Header
+                title = 'detail'
+                iconLeft = 'angle-left'
+                onPressLeft = {()=>navigation.goBack()}
+           />
+           
+            <View style={styles.avatarContainer}>
+                <Text style={styles.name}>'detail'</Text> 
+            </View>
+           // <Status content = 'this is detail'/>
         </View>
     )
 }

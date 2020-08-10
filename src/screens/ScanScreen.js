@@ -11,41 +11,110 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    Image
+    Image,
  } from 'react-native';
 import Header from '../components/Header';
-
+import InoIcons from 'react-native-vector-icons/Ionicons';
+import {useNavigation,useRoute} from '@react-navigation/native';
 const Profile=(props)=>{
+    const navigation=useNavigation();
     return(
         <View style={styles.profileContainer}>
+            <Header
+                    title = {props.name}
+                    iconLeft = 'arrow-back'
+                    backgroundColor = 'blue'
+                    color='#fff'
+                    fontSize = {30}
+                    onPressLeft={()=>navigation.goBack()}
+                />
             <View style={styles.avatar}>
                 <Image
-                    source={props.uri}
+                    source={{uri:props.avatar}}
+                    style={styles.imgAvatar}
                 />
                 <Text style={styles.name}>{props.name}</Text>
-                <TouchableOpacity style={styles.verify}>
-                    <Text>Verify User</Text>
+                <TouchableOpacity >
+                    <Text style={styles.verify}>Verify User</Text>
                 </TouchableOpacity>
             </View>
 
             <View style={styles.QRcode}>
-                <Text>QR code</Text>
+                <Image
+                    source={{uri:props.qrCode}}
+                    style={styles.QRcode}
+                />
             </View>
+
+            <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('CameraAccessScreen')}>
+                
+                <InoIcons name="camera-outline" size={25} color='blue'/>
+                <Text style={styles.title}>
+                     QRCode Scan
+                </Text>
+            </TouchableOpacity>
         </View>
     )
 }
 
+export default function ScanScreen(){
+    const route = useRoute();
+    return (
+        <View style={{ flex: 1 }}>
+        <Profile
+            name={route.params?.name}
+            avatar={route.params?.avatar}
+            qrCode={route.params?.qrCode}
+        />
+        </View>)
+}
+
 const styles=StyleSheet.create({
     profileContainer:{
-
+        justifyContent:'center',
+        flexDirection:'column'
+    },
+    avatar:{
+        justifyContent:'center',
+        marginVertical:20
+    },
+    imgAvatar:{
+        height:150,
+        aspectRatio:1/1,
+        alignSelf:'center',
+        borderRadius:95
     },
     name:{
-
+        textAlign:'center',
+        fontSize:20,
+        fontWeight:'bold',
+        marginVertical:10
     },
     verify:{
-
+        textAlign:'center',
+        color:'blue'
     },
     QRcode:{
-        
+        alignSelf:'center',
+        height:300,
+        aspectRatio:1/1,
+    },
+    button:{
+        borderWidth:1,
+        borderColor:'blue',
+        borderRadius:20,
+        alignSelf:'center',
+        marginVertical:30, 
+        flexDirection:'row',
+        justifyContent:'center',
+        paddingVertical:10,
+        paddingHorizontal:20,
+        width:'90%',
+    },
+    title:{
+        color:'blue',
+        fontSize:16,
+        textAlign:'center',
+        marginHorizontal:10
     }
 })
