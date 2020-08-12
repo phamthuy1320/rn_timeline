@@ -1,5 +1,5 @@
-import React from 'react';
-import {View,Text,Button,StyleSheet,ScrollView,Image,TouchableOpacity} from 'react-native';
+import React,{useCallback} from 'react';
+import {View,Text,Button,StyleSheet,ScrollView,Image,TouchableOpacity,ImageBackground} from 'react-native';
 import {useRoute,useNavigation} from '@react-navigation/native'
 import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -12,6 +12,7 @@ const ActiveState = ({active})=>{
    if (active =='no active')
         {return <FontAwesome name ='circle' size={20} color='red'/>}
     };
+
 const Status = ({content})=>{
     return (
     <ScrollView>
@@ -19,37 +20,58 @@ const Status = ({content})=>{
     </ScrollView>
     )
 }
+
+const Avatar = (props) =>{
+    return (
+        <View style={{flexDirection:'row'}}>
+            <Image
+                    source = {{uri:props?._avatar}}
+                    style={styles.detailAvatar}
+                />
+            
+            {props._active? <ActiveState active={props?._active}/>:null}
+        </View>
+        
+    )
+}
+
 export default function HomeDetail(){
     const route=useRoute();
     const navigation= useNavigation();
     return (
         <View >
             <Header
-                title={route.params?._name}
+                title={route.params?._name+ ' Profile'}
                 iconLeft = 'arrow-back'
+                fontSize={20}
+
                 onPressLeft={()=>navigation.goBack()}
             />
-            <Image
-                    source = {{uri:route.params?._background}}
-                    style={styles.detailBackground}
-                />
-                
-                <Image
-                    source = {{uri:route.params?._avatar}}
-                    style={styles.detailAvatar}
-                    
-                />
-
+            <ImageBackground source={{uri:route.params?._background}} style={styles.detailBackground}>
+               <View style={{position:'absolute',top:120, flexDirection:'row'}}>
+                     <Avatar
+                        _avatar={route.params?._avatar}
+                        // _active={route.params?._active}
+                        />
+                        
+                    <View style={styles.notification}>
+                        <Text style={styles.name}>{route.params?._name?route.params?._name:'no name'}</Text>
+                        <Text style={styles.notify}><Text style={{fontWeight:'bold'}}>Email:</Text> {route.params?._email?route.params?._email:'no email'}</Text> 
+                        <Text style={styles.notify}><Text style={{fontWeight:'bold'}}>Website:</Text> {route.params?._website?route.params?._website:'no website'}</Text> 
+                        <Text style={styles.notify}><Text style={{fontWeight:'bold'}}>Phone:</Text> {route.params?._phone?route.params?._phone:'no phone'}</Text>  
+                    </View>
+                </View>
+            </ImageBackground>
+            
+            <View style={{marginTop:60, backgroundColor:'#fff',paddingTop:10, marginHorizontal:10}}>
                 <TouchableOpacity onPress={()=>navigation.navigate('ScanScreen',{name:route.params?._name, avatar:route.params?._avatar,qrCode:route.params?._qrCode})}>
-                    <Text style={{color:'blue',textAlign:'center',marginBottom:20}}>You want add friend with me?</Text>
+                    <Text style={{color:'blue',textAlign:'center',marginBottom:20}}>Go to QRCode?</Text>
                     
                 </TouchableOpacity>
-                
-            
-                <Text style={styles.name}>{route.params?._name?route.params?._name:'detail'}</Text> 
-            
-                <Status content = {route.params?._status?route.params?._status:'this is detail'}/>
-        </View>
+            </View>
+                <View  style={styles.statusContainer}/>
+                    <Status content = {route.params?._status?route.params?._status:'this is detail'}/>
+                </View>
     )
 }
 
@@ -59,7 +81,7 @@ const styles = StyleSheet.create({
     },
     detailBackground:{
         height:200,
-
+        flexDirection:'row'
     },
     detailAvatar:{
         borderRadius:90,
@@ -67,8 +89,7 @@ const styles = StyleSheet.create({
         aspectRatio:1/1,
         borderWidth:6,
         borderColor:'#fff',
-        alignSelf:'center'
-        
+        alignSelf:'center',
     },
     avatarContainer:{
         alignSelf:'center',
@@ -77,20 +98,40 @@ const styles = StyleSheet.create({
        // elevation:4
     },
     active:{
-        position:'relative',
-        bottom:50,
-        left:40, 
         alignSelf:'center'
     },
     name:{
         textAlign:'center',
-        fontSize:20,
+        fontSize:22,
         fontWeight:'bold',
-       
+        borderBottomWidth:1,
+        borderColor:'#fff',
+        marginVertical:24,
+        marginHorizontal:10
+    },
+    statusContainer:{
+        padding:10,
+        flexWrap:'wrap'
     },
     status:{
         textAlign:'center',
         fontSize:20,
-        //padding:1000
+        paddingBottom:1000,
+        color:'#f85c5e',
+        backgroundColor:'#fff',
+        marginHorizontal:10,
+        paddingHorizontal:20,
+    
+    },
+    notify:{
+        
+       
+    },
+    notification:{
+        alignSelf:'center',
+        
+        marginHorizontal:10, 
+        paddingBottom:5
     }
+
 })

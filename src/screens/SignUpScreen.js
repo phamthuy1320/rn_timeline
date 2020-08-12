@@ -24,11 +24,11 @@ export default function SignUpScreen(){
 
     const navigation = useNavigation();
 
-    const cp =  useEffect(()=>{
+    useEffect( ()=>{
             email==''?setAlertem('please fill email'):setAlertem('');
             password==''?setAlertpw('please fill password'):setAlertpw('');
             repassword ==''?setAlertrpw('please fill verify password'):setAlertrpw('');
-    });
+    },[email,password,repassword]);
 
    
 
@@ -66,11 +66,10 @@ export default function SignUpScreen(){
         </View>
 
         <Button onPress={()=>{
-            cp;
             (password==repassword&&checkFillError({email,password,repassword})==false)? (alert('successed,press "return to Login" to Login ')&&setAccount([...userAccount,{email,password}])):alert('failed');
 
         }} title='Sign Up'/>
-       <TouchableOpacity onPress={()=>navigation.navigate('LoginScreen')}>
+       <TouchableOpacity onPress={()=>navigation.goBack()}>
            <Text style={{textAlign:'center',fontWeight:'bold'}}>Return to Login</Text>
        </TouchableOpacity>
 

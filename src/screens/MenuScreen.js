@@ -5,31 +5,33 @@
  import {useNavigation} from '@react-navigation/native';
  import {View,Text,TouchableOpacity,StyleSheet,FlatList, ScrollView,Image} from 'react-native';
  import AntDesign from 'react-native-vector-icons/AntDesign';
+
  import Header from '../components/Header';
  import BankCard from '../components/BankCard';
+
 
  const BankCardData = require('../constants/BankCard.json');
  const Transactions = require('../constants/Transactions.json');
 
  const ListCard = () => {
      return (
-            <FlatList 
-                data={BankCardData}
-                horizontal={true}
-                renderItem={
-                    ({item,idx})=> 
-                    <BankCard
-                        key={item.id}
-                        curBalance={item.curBalance}
-                        numberCard={item.numberCard}
-                        holder={item.holder}
-                        expires={item.expires}
-                        bank={item.bank}
-                    />
-                }
-                ItemSeparatorComponent={()=><View style={{marginVertical:10}}/>}
-                keyExtractor={(item,idx)=>idx.toString()}
-            />
+        <FlatList 
+            data={BankCardData}
+            horizontal={true}
+            renderItem={
+                ({item,idx})=> 
+                <BankCard
+                    key={item.id}
+                    curBalance={item.curBalance}
+                    numberCard={item.numberCard}
+                    holder={item.holder}
+                    expires={item.expires}
+                    bank={item.bank}
+                />
+            }
+            ItemSeparatorComponent={()=><View style={{marginVertical:10}}/>}
+            keyExtractor={(item,idx)=>idx.toString()}
+        />
      )
  }
 
@@ -62,27 +64,26 @@
 
 const Transaction = () =>{
     return (
-            <FlatList 
-                data={Transactions}
-                renderItem={
-                    ({item})=> 
-                    <View style={{marginHorizontal:10}}>
-                        <ItemTransaction
-                        key={item.name}
-                        image={item.image}
-                        name={item.name}
-                        brand={item.brand}
-                        price={item.price}
-                        transaction={item.transaction}
-                    />
-                    </View>
-                }
-                keyExtractor={(item,idx)=>item.name+idx.toString()}
-            />
+        <FlatList 
+            data={Transactions}
+            renderItem={
+                ({item})=> 
+                <View style={{marginHorizontal:10}}>
+                    <ItemTransaction
+                    key={item.name}
+                    image={item.image}
+                    name={item.name}
+                    brand={item.brand}
+                    price={item.price}
+                    transaction={item.transaction}
+                />
+                </View>
+            }
+            keyExtractor={(item,idx)=>item.name+idx.toString()}
+        />
     )
 }
-
- export default function MenuScreen(){
+export default function MenuScreen(){
      const navigation = useNavigation();
      return (
          <View style={styles.container}>
@@ -107,6 +108,7 @@ const Transaction = () =>{
          </View>
      )
  }
+
 
  const styles = StyleSheet.create({
     container:{

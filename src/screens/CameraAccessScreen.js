@@ -1,13 +1,19 @@
 import React,{useState,useEffect,useRef} from 'react';
-import {View,Text,TouchableOpacity,StyleSheet} from 'react-native';
+import {View,Text,TouchableOpacity,StyleSheet,Linking} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Header from '../components/Header';
-import {RNCamera} from 'react-native-camera';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { RNCamera} from 'react-native-camera';
+
 
 export default function CameraAccessScreen(){
     const navigation = useNavigation();
-    const [errorMsg,setErrorMsg] =useState(null);
-    const camera= useRef(null);
+
+    const onSuccess = (e) =>{
+        Linking.openURL(e.data).catch(err =>
+            console.err(err)
+            )
+    }
     return (
         <View>
             <Header
@@ -19,45 +25,18 @@ export default function CameraAccessScreen(){
                     onPressLeft={()=>navigation.goBack()}
             />
 
-            <View>
-            <RNCamera
-                ref={camera}
-                style={styles.preview}
-                type={RNCamera.Constants.Type.back}
-                flashMode={RNCamera.Constants.FlashMode.on}
-                androidCameraPermissionOptions={{
-                    title: 'Permission to use camera',
-                    message: 'We need your permission to use your camera',
-                    buttonPositive: 'Ok',
-                    buttonNegative: 'Cancel',
-                }}
-                androidRecordAudioPermissionOptions={{
-                    title: 'Permission to use audio recording',
-                    message: 'We need your permission to use your audio',
-                    buttonPositive: 'Ok',
-                    buttonNegative: 'Cancel',
-                }}
-                onGoogleVisionBarcodesDetected={({ barcodes }) => {
-                    console.log(barcodes);
-                }}>
-
+                    < Text style={{color:'#000'}}>
+                        Scan a qrCode
+                    </Text>
+                <QRCodeScanner
+                    onRead={onSuccess}
+                    flashMode={RNCamera.Constants.FlashMode.torch}
+                    cameraStyle={{height:200,width:'90%',margin:20,}}
+                    cameraType='back'
+                    
+                    topViewStyle={{margin:20}}
                    
-               
-            
-            <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-                <TouchableOpacity onPress={()=><RNCamera.takePictureAsync quality={0.5} base64={true}/>} style={styles.capture}>
-                    <Text style={{ fontSize: 14 }}> SNAP </Text>
-                </TouchableOpacity>
-                
-            </View>
-            </RNCamera>
-            </View>
-
-            <View>
-            
-
-            </View>
-            
+                />
         </View>
 
     )

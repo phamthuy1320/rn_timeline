@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import {
     View,
     Text,
@@ -12,25 +12,33 @@ import Button from '../components/Button';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useNavigation, NavigationContainer} from '@react-navigation/native';
 
-import SignUpScreen from './SignUpScreen';
+/*import SignUpScreen from './SignUpScreen';
 import HomeScreen from './HomeScreen';
 import Header from '../components/Header';
 import userAccount from '../constants/userAccounts';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator();*/
 
-const ACCOUNT_LOGIN ={'email':'thuy','password':'12345678'};
+const ACCOUNT_LOGIN ={'email':'phamthuy@gmail.com','password':'12345678'};
 
-function Login() {
+export default function Login() {
     const [email,setEmail]= useState(null);
     const [password,setPassword] = useState(null); 
+    const [alertEmail,setAlertEmail] = useState('');
+    const [alertPassword, setAlertPassword] = useState('');
     const navigation = useNavigation();
     
+    useEffect(()=>{
+        email==''? setAlertEmail('please fill email'):setAlertEmail('');
+        password==''?setAlertPassword('please fill password'):setAlertPassword('');
+    },[email,password]);
+
     const accountCanLogin = () =>{
-        if(email!==null&&password!==null){
+        if(email!==''&&password!==''){
             if(email==ACCOUNT_LOGIN.email&&password==ACCOUNT_LOGIN.password){
-            return navigation.navigate('HomeScreen')}
-            else return alert('password or user wrong');
+            return navigation.navigate('HomeStack')}
+            else {
+                return alert('password or user wrong');}
         }
         return alert("fill all please");
     }
@@ -49,8 +57,10 @@ function Login() {
                     style={styles.input}
                     onChangeText={text=>setEmail(text)}
                     placeholder='Email...'
+                    textContentType='emailAddress'
                     value={email}
                 />
+                <Text style={styles.alert}>{alertEmail}</Text>
                 <TextInput
                     style={styles.input}
                     onChangeText={text=>setPassword(text)}
@@ -58,6 +68,7 @@ function Login() {
                     secureTextEntry={true}
                     value={password}
                 />
+                <Text style={styles.alert}>{alertPassword}</Text>
             </View>
             
             <TouchableOpacity style={styles.othersContainer} onPress={()=>{alert('forgot password')}}>
@@ -76,7 +87,7 @@ function Login() {
     );
 }
 
-export default function LoginScreen(){
+/*export default function LoginScreen(){
     return (
         <NavigationContainer>
             <Stack.Navigator>
@@ -118,4 +129,4 @@ export default function LoginScreen(){
         </NavigationContainer>
         
     );
-}
+}*/
