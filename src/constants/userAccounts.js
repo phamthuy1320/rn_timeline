@@ -1,7 +1,7 @@
 const userAccount = [
-    {'email':'thuy','password':'12345678'},
-    {'email':'nga','password':'12345678'},
-    {'email':'linh','password':'12345678'}
+    {'email':'thuy@gmail.com','password':'12345678'},
+    {'email':'nga@gmail.com','password':'12345678'},
+    {'email':'linh@gmail.com','password':'12345678'}
 
 ];
 

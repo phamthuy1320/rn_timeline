@@ -19,7 +19,7 @@ import userAccount from '../constants/userAccounts';
 
 const Stack = createStackNavigator();*/
 
-const ACCOUNT_LOGIN ={'email':'phamthuy@gmail.com','password':'12345678'};
+const ACCOUNT_LOGIN ={'email':'user@abc.com','password':'12345678'};
 
 export default function Login() {
     const [email,setEmail]= useState(null);

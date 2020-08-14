@@ -3,12 +3,12 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'rn_timeline' do
+target 'timeline_1' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'rn_timelineTests' do
+  target 'timeline_1Tests' do
     inherit! :complete
     # Pods for testing
   end
@@ -23,10 +23,10 @@ target 'rn_timeline' do
   end
 end
 
-target 'rn_timeline-tvOS' do
-  # Pods for rn_timeline-tvOS
+target 'timeline_1-tvOS' do
+  # Pods for timeline_1-tvOS
 
-  target 'rn_timeline-tvOSTests' do
+  target 'timeline_1-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

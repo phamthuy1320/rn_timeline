@@ -9,17 +9,17 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Header = (props)=> {
     return(
-        <View style={styles.headerContainer}>
+        <View style={[styles.headerContainer,{backgroundColor:props.backgroundColor?props.backgroundColor:'#fff'}]}>
            {props.iconLeft? <TouchableOpacity style={styles.headerNavigation} onPress={props.onPressLeft}>
-                <Ionicons name={props.iconLeft} size={30} color='#000'/>
-            </TouchableOpacity>:<Text/>}
+                <Ionicons name={props.iconLeft} size={props.fontSize?props.fontSize:30} color={props.color?props.color:'#000'}/>
+            </TouchableOpacity>:null}
             
-            {props.title?<Text style={styles.headerContent}>
+            {props.title?<Text style={[styles.headerContent,{color:props.color?props.color:'#000',fontSize:props.fontSize?props.fontSize:30}]}>
                 {props.title.toUpperCase()}
             </Text>:<Text/>}
 
             {props.iconRight?<TouchableOpacity style={styles.headerNavigation} onPress={props.onPressRight}>
-                <Ionicons name={props.iconRight} size={30} color='#000'/>
+                <Ionicons name={props.iconRight} size={props.fontSize?props.fontSize:30} color={props.color?props.color:'#000'}/>
             </TouchableOpacity>:<Text/>}
 
         </View>
@@ -28,7 +28,7 @@ const Header = (props)=> {
 
 const styles=StyleSheet.create({
     headerContainer:{
-        backgroundColor:'#fff',
+        
         elevation:5,
         height:80,
         flexDirection:'row',
@@ -40,9 +40,8 @@ const styles=StyleSheet.create({
         
     },
     headerContent:{
-        color:'#000',
+        
         fontWeight:'bold',
-        fontSize:30,
         textAlign:'center',
         
     }
