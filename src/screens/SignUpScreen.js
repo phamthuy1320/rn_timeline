@@ -4,15 +4,17 @@ import {useNavigation} from '@react-navigation/native';
 
 import {styles} from './Styles/MainStyles';
 import Button from '../components/Button';
-import useAccounts from '../constants/userAccounts';
-import userAccount from '../constants/userAccounts';
+import FBLoginButton from '../components/FBLoginButton';
+import database from '../services/firebase';
 
 //alert?
 function checkFillError({e,p,r}){
     if(e==''||p==''||r=='') return true;
     return false;
 }
-
+const addAccountFb = (e,p) =>{
+    database.ref('account').push({'name':e,'password':p})
+}
 export default function SignUpScreen(){
     const [email,setEmail]= useState('');
     const [password,setPassword] = useState(''); 
@@ -20,9 +22,11 @@ export default function SignUpScreen(){
     const [alertem,setAlertem] = useState('');
     const [alertpw,setAlertpw] = useState('');
     const [alertrpw,setAlertrpw] = useState('');
-    const [accounts,setAccount] = useState(userAccount);
+  
 
     const navigation = useNavigation();
+
+    
 
     useEffect( ()=>{
             email==''?setAlertem('please fill email'):setAlertem('');
@@ -30,7 +34,17 @@ export default function SignUpScreen(){
             repassword ==''?setAlertrpw('please fill verify password'):setAlertrpw('');
     },[email,password,repassword]);
 
-   
+   const checkPassword = () =>{
+    if (password==repassword&&checkFillError({email,password,repassword})==false){
+        addAccountFb(email,password);
+        setEmail('');
+        setPassword('');
+        setRepassword('');
+        return alert('successed,press "return to Login" to Login ')
+    }else{
+        return alert('password and verify are different!')
+    }
+   }
 
     return (
     <View style={styles.container}>
@@ -63,15 +77,12 @@ export default function SignUpScreen(){
                 value={repassword}
             />
             <Text style={styles.alert}>{alertrpw}</Text>
-        </View>
-
-        <Button onPress={()=>{
-            (password==repassword&&checkFillError({email,password,repassword})==false)? (alert('successed,press "return to Login" to Login ')&&setAccount([...userAccount,{email,password}])):alert('failed');
-
-        }} title='Sign Up'/>
+        <Button onPress={checkPassword} title='Sign Up'/>
        <TouchableOpacity onPress={()=>navigation.goBack()}>
            <Text style={{textAlign:'center',fontWeight:'bold'}}>Return to Login</Text>
        </TouchableOpacity>
+       <FBLoginButton/>
+       </View>
 
     </View>);
 }

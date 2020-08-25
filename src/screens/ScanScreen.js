@@ -16,6 +16,7 @@ import {
 import Header from '../components/Header';
 import InoIcons from 'react-native-vector-icons/Ionicons';
 import {useNavigation,useRoute} from '@react-navigation/native';
+import QRCode from 'react-native-qrcode-svg';
 const Profile=(props)=>{
     const navigation=useNavigation();
     return(
@@ -40,9 +41,21 @@ const Profile=(props)=>{
             </View>
 
             <View style={styles.QRcode}>
-                <Image
+                {/*<Image
                     source={{uri:props.qrCode}}
                     style={styles.QRcode}
+                />*/}
+
+                <QRCode
+                    value='some string value'
+                    color={'#000'}
+                    backgroundColor={'white'}
+                    size={200}
+                    logo={{uri:props.qrCode}}
+                    logoMargin={2}
+                    logoSize={20}
+                    logoBorderRadius={10}
+                    logoBackgroundColor={'transparent'}
                 />
             </View>
 
@@ -96,8 +109,8 @@ const styles=StyleSheet.create({
     },
     QRcode:{
         alignSelf:'center',
-        height:300,
-        aspectRatio:1/1,
+        //height:300,
+        //aspectRatio:1/1,
     },
     button:{
         borderWidth:1,

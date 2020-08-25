@@ -4,15 +4,17 @@ import {useNavigation} from '@react-navigation/native';
 import Header from '../components/Header';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera} from 'react-native-camera';
+import QRCode from 'react-native-qrcode-svg';
 
 
 export default function CameraAccessScreen(){
     const navigation = useNavigation();
 
     const onSuccess = (e) =>{
-        Linking.openURL(e.data).catch(err =>
+        console.log('Scan successed',e.data);
+        /*Linking.openURL(e.data).catch(err =>
             console.err(err)
-            )
+            )*/
     }
     return (
         <View>
@@ -24,19 +26,15 @@ export default function CameraAccessScreen(){
                     fontSize = {30}
                     onPressLeft={()=>navigation.goBack()}
             />
-
-                    < Text style={{color:'#000'}}>
-                        Scan a qrCode
-                    </Text>
-                <QRCodeScanner
-                    onRead={onSuccess}
-                    flashMode={RNCamera.Constants.FlashMode.torch}
-                    cameraStyle={{height:200,width:'90%',margin:20,}}
-                    cameraType='back'
-                    
-                    topViewStyle={{margin:20}}
-                   
-                />
+            {<QRCodeScanner
+                onRead={onSuccess}
+                //flashMode={RNCamera.Constants.FlashMode.torch}
+                //cameraStyle={{height:200,margin:20,}}
+                //cameraType='back'
+                topViewStyle={{margin:20}}
+                
+            />}
+            
         </View>
 
     )

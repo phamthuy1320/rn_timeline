@@ -9,17 +9,14 @@ import {
 
 import {styles} from './Styles/MainStyles';
 import Button from '../components/Button';
-import {createStackNavigator} from '@react-navigation/stack';
-import {useNavigation, NavigationContainer} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
-/*import SignUpScreen from './SignUpScreen';
-import HomeScreen from './HomeScreen';
-import Header from '../components/Header';
-import userAccount from '../constants/userAccounts';
+import database from '../services/firebase';
+import FBLoginButton from '../components/FBLoginButton';
 
-const Stack = createStackNavigator();*/
-
-const ACCOUNT_LOGIN ={'email':'user@abc.com','password':'12345678'};
+//const ACCOUNT_LOGIN ={'email':'','password':''};
+//const account ={'name':'0','password':'0'};
 
 export default function Login() {
     const [email,setEmail]= useState(null);
@@ -27,25 +24,34 @@ export default function Login() {
     const [alertEmail,setAlertEmail] = useState('');
     const [alertPassword, setAlertPassword] = useState('');
     const navigation = useNavigation();
-    
+    const [hasAccount, setHasAccount] = useState(false);
+
     useEffect(()=>{
+        
+        try{
+             database.ref('account').orderByValue().startAt(0).once("value", function(snapshot) {
+                  snapshot.forEach(function(data) {
+                      if(data.child('name').val()==email&&data.child('password').val()==password){
+                            setHasAccount(true)
+                            console.log( data.child('name').val(),data.child('password').val())
+                            
+                        }
+                   })
+                 });
+        }catch(err){console.log(err)}
         email==''? setAlertEmail('please fill email'):setAlertEmail('');
         password==''?setAlertPassword('please fill password'):setAlertPassword('');
     },[email,password]);
 
     const accountCanLogin = () =>{
-        if(email!==''&&password!==''){
-            if(email==ACCOUNT_LOGIN.email&&password==ACCOUNT_LOGIN.password){
+        if(hasAccount===true){
             return navigation.navigate('HomeStack')}
-            else {
-                return alert('password or user wrong');}
-        }
+        else if(hasAccount===false){
+            return alert("password or user wrong")}
         return alert("fill all please");
     }
     return(
-        <View 
-            style={styles.container}
-        >
+        <View style={styles.container}>
             <View style={styles.welcomeContainer}>
                 <Text style={styles.welcome}>
                     Welcome to Login
@@ -69,64 +75,15 @@ export default function Login() {
                     value={password}
                 />
                 <Text style={styles.alert}>{alertPassword}</Text>
+                <TouchableOpacity  onPress={()=>{alert('forgot password')}}>
+                    <Text style={styles.other}>Forgot Password?</Text>
+                </TouchableOpacity>
+                <Button title = 'Login' onPress={accountCanLogin}/>
+                <TouchableOpacity onPress={()=>navigation.navigate('SignUpScreen')}>
+                    <Text style={styles.other}>Sign up</Text>
+                </TouchableOpacity>
+                <FBLoginButton/>
             </View>
-            
-            <TouchableOpacity style={styles.othersContainer} onPress={()=>{alert('forgot password')}}>
-                <Text style={styles.other}>Forgot Password?</Text>
-            </TouchableOpacity>
-            
-
-           <Button title = 'Login' onPress={accountCanLogin}/>
-            
-
-            <TouchableOpacity style={styles.others} onPress={()=>navigation.navigate('SignUpScreen')}>
-                <Text style={styles.other}>Sign up</Text>
-            </TouchableOpacity>
-            
         </View>
     );
 }
-
-/*export default function LoginScreen(){
-    return (
-        <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen
-                    name='LoginScreen'
-                    component={Login}
-                    options = {
-                        {headerTitle:'',
-                        headerStyle:{
-                            height:0
-                        }
-                    }
-                    }
-                />
-                <Stack.Screen
-                    name='SignUpScreen'
-                    component={SignUpScreen}
-                    options={{
-                        headerTitle:'',
-                        headerStyle:{
-                            height:0
-                        },
-                        headerLeft:''
-                    }}
-                />
-                <Stack.Screen
-                    name='HomeScreen'
-                    component = {HomeScreen}
-                    options={
-                        {headerTitle:'',
-                        headerStyle:{
-                            height:0
-                        },
-                        headerLeft:''
-                    }
-                    }
-                />      
-            </Stack.Navigator>
-        </NavigationContainer>
-        
-    );
-}*/

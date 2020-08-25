@@ -1,3 +1,4 @@
+//test get data with axios
 import React,{useState,useEffect} from 'react';
 import {View, Text,FlatList} from 'react-native';
 import axios from 'axios';

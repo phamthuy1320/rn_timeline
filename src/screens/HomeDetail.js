@@ -1,8 +1,13 @@
-import React,{useCallback} from 'react';
-import {View,Text,Button,StyleSheet,ScrollView,Image,TouchableOpacity,ImageBackground} from 'react-native';
+import React,{useCallback, useState} from 'react';
+import {View,Text,Button,StyleSheet,ScrollView,Image,TouchableOpacity,ImageBackground, Alert} from 'react-native';
 import {useRoute,useNavigation} from '@react-navigation/native'
 import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useDispatch} from 'react-redux';
+import {deleteContact} from '../actions/Home';
+
+import AddContact from '../components/HomeComponents/AddContact';
+
 //Detail item for HomeScreen
 const ActiveState = ({active})=>{
     if (active =='active'){return  <FontAwesome name ='circle' size={20} color='green'/>}
@@ -38,15 +43,34 @@ const Avatar = (props) =>{
 export default function HomeDetail(){
     const route=useRoute();
     const navigation= useNavigation();
+    const dispatch = useDispatch();
+    // const [showEdit,setShowEdit ] = useState(false);
     return (
         <View >
             <Header
-                title={route.params?._name+ ' Profile'}
+                title={' Profile'}
                 iconLeft = 'arrow-back'
+                titleRight = 'Delete'
                 fontSize={20}
-
+                onPressRight={()=>Alert.alert(
+                    "Delete", 'You want delete this contact?',[
+                        {
+                            text: "Cancel",
+                            onPress: () => {},
+                            style: "cancel"
+                          },
+                          { text: "OK", onPress: () => {
+                              dispatch(deleteContact(route.params?._idDelete));
+                              navigation.goBack()
+                        } }
+                    ]
+                )}
                 onPressLeft={()=>navigation.goBack()}
             />
+            {/* <AddContact
+                modalVisible = {showEdit}
+                setModalVisible={setShowEdit(!showEdit)}
+            /> */}
             <ImageBackground source={{uri:route.params?._background}} style={styles.detailBackground}>
                <View style={{position:'absolute',top:120, flexDirection:'row'}}>
                      <Avatar
@@ -63,6 +87,7 @@ export default function HomeDetail(){
                 </View>
             </ImageBackground>
             
+
             <View style={{marginTop:60, backgroundColor:'#fff',paddingTop:10, marginHorizontal:10}}>
                 <TouchableOpacity onPress={()=>navigation.navigate('ScanScreen',{name:route.params?._name, avatar:route.params?._avatar,qrCode:route.params?._qrCode})}>
                     <Text style={{color:'blue',textAlign:'center',marginBottom:20}}>Go to QRCode?</Text>
