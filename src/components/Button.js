@@ -14,7 +14,7 @@ const Button = (props)=>{
 const styles=StyleSheet.create({
     button:{
         height:50,
-        width:'90%',
+        //width:'90%',
         borderWidth:1,
         borderColor:'#f85c5e',
         backgroundColor:'#f85c5e',

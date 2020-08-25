@@ -43,12 +43,12 @@ const styles=StyleSheet.create({
     cardContainer:{
         backgroundColor:'blue',
         flexDirection:'row',
+        flex:1,
         margin:10,
         borderRadius:15,
-        height:200,
         padding:10,
         alignSelf:'center',
-        width:380,
+        
     },
     detailCard:{
         margin:10,
