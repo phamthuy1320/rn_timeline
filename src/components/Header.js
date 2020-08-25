@@ -15,12 +15,15 @@ const Header = (props)=> {
             </TouchableOpacity>:null}
             
             {props.title?<Text style={[styles.headerContent,{color:props.color?props.color:'#000',fontSize:props.fontSize?props.fontSize:30}]}>
-                {props.title.toUpperCase()}
+                {props.title}
             </Text>:<Text/>}
 
             {props.iconRight?<TouchableOpacity style={styles.headerNavigation} onPress={props.onPressRight}>
                 <Ionicons name={props.iconRight} size={props.fontSize?props.fontSize:30} color={props.color?props.color:'#000'}/>
-            </TouchableOpacity>:<Text/>}
+            </TouchableOpacity>:null}
+            {props.titleRight?<TouchableOpacity style={styles.headerNavigation} onPress={props.onPressRight}>
+                <Text style={{color:'red'}}>{props.titleRight}</Text>
+            </TouchableOpacity>:null}
 
         </View>
     )
@@ -40,8 +43,7 @@ const styles=StyleSheet.create({
         
     },
     headerContent:{
-        
-        fontWeight:'bold',
+        //fontWeight:'bold',
         textAlign:'center',
         
     }

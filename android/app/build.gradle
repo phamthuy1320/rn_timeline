@@ -148,12 +148,12 @@ android {
         }
     }
     signingConfigs {
-        /*debug {
+        debug {
             storeFile file('debug.keystore')
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
-        }*/
+        }
         release {
             storeFile file('my-upload-key.keystore')
             storePassword 'phamthuy@1320'
@@ -162,15 +162,16 @@ android {
         }
     }
     buildTypes {
-       /* debug {
+        debug {
             signingConfig signingConfigs.debug
-        }*/
+        }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro", 'proguard.cfg'
+             
         }
     }
 
@@ -191,6 +192,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-fbsdk')//add d24.08
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'//add d19.08
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
@@ -199,6 +202,7 @@ dependencies {
 
     //implementation project(':@react-native-firebase_firestore')
     compile 'com.android.support:multidex:1.0.1' //enter the latest version
+    compile fileTree(dir: 'libs', include: ['*.jar']) //add d24.08
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
@@ -230,3 +234,9 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
+project.ext.vectoricons = [
+	iconFontNames: ['MaterialCommunityIcons.ttf','AntDesign', 'Entypo', 'Feather', 'FontAwesome','Ionicons', 'MaterialIcons','AnotherFont.ttf'] //name of all the fonts added from node_modules in step 1.
+]
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"

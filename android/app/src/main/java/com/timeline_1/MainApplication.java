@@ -1,5 +1,8 @@
 package com.timeline_1;
 
+import com.facebook.FacebookSdk;//add d19.08
+import com.facebook.appevents.AppEventsLogger;//add d19.08
+
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
@@ -43,8 +46,8 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
-    initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    FacebookSdk.sdkInitialize(getApplicationContext());
+    AppEventsLogger.activateApp(this);
   }
 
   /**
