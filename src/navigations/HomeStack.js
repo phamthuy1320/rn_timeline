@@ -6,18 +6,24 @@ import ScanScreen from '../screens/ScanScreen';
 import CameraAccessScreen from '../screens/CameraAccessScreen';
 import MenuScreen from '../screens/MenuScreen';
 import DrawerHome from './DrawerHome';
+import QRScanSuccess from '../screens/QRScanSuccess';
 
 
 const Stack = createStackNavigator();
 
 export default function HomeStack(){
+    
     return (
             <Stack.Navigator>
                 <Stack.Screen 
                     name = 'DrawerHome'
                     component = {DrawerHome}
-                   
                 />
+                {/* <Stack.Screen 
+                    name = 'Home'
+                    component = {Home}
+                   
+                /> */}
                 <Stack.Screen 
                     name = 'HomeDetail'
                     component = {HomeDetail}
@@ -41,6 +47,17 @@ export default function HomeStack(){
                  <Stack.Screen 
                     name = 'CameraAccessScreen'
                     component = {CameraAccessScreen}
+                    options={{
+                        headerTitle:'',
+                        headerStyle:{
+                            height:0
+                        }
+                    }}
+                   
+                />
+                <Stack.Screen 
+                    name = 'QRScanSuccess'
+                    component = {QRScanSuccess}
                     options={{
                         headerTitle:'',
                         headerStyle:{

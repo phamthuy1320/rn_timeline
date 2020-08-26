@@ -1,4 +1,4 @@
-import React ,{useState,useMemo,useCallback, useEffect} from 'react';
+import React ,{useState,useCallback, useEffect} from 'react';
 import {
     View,
     ActivityIndicator,
@@ -15,12 +15,11 @@ import styles from './Styles/HomeStyles';
 import Header from '../components/Header';
 import ListContact from '../components/HomeComponents/ListContact';
 import AddContact from '../components/HomeComponents/AddContact';
-import { searchContact,getData } from '../actions/Home';
+import { getData } from '../actions/Home';
 import {DatasetHashMap} from '../components/HomeComponents/getHomeData';
 
 export default function Home(){
     let contacts = useSelector(state => state);
-   // console.log(contacts.homeReducer)
     
     const dispatch = useDispatch();
 
@@ -29,10 +28,7 @@ export default function Home(){
     const [valueSearch,setValueSearch] = useState('');
     const navigation = useNavigation();
     const [isRefreshing, setIsRefreshing] = useState(true);//to pull refresh
-    const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
-
-   
 
     const  onRefresh =useCallback(()=>{
          setIsRefreshing(true);
@@ -126,8 +122,6 @@ export default function Home(){
               <AddContact 
                 modalVisible={modalVisible} 
                 setModalVisible={()=>setModalVisible(!modalVisible)}
-                //_imagePicker = {_imagePicker}
-                //url = {image}    
             />
                 
             <ActionButton

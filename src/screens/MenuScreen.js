@@ -45,7 +45,6 @@ export default function MenuScreen(){
             .then(
                 function(snapshot){
                     snapshot.forEach((data)=>{
-                        
                         setTransaction([...transactions,data.val()]);
                     })
                    
@@ -84,8 +83,6 @@ export default function MenuScreen(){
           catch(err){console.log(err)}
          
      },[])
-     //console.log(transactions.length, bankCardData.length)
-     {console.log(transactions.length)}
      return (
         
          <View style={styles.container}>

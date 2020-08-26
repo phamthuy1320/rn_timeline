@@ -10,11 +10,11 @@ export function getData (data){
         }
     }
 }
-export function addContact (name, email, website, phone){
+export function addContact (name, email, website, phone,uri){
     return {
         type: ActionTypes.ADD_CONTACT,
         payload:{
-            name, email, website, phone, id:phone
+            name, email, website, phone, id:phone,uri
         }
     }
 }
@@ -27,3 +27,5 @@ export function deleteContact (id){
         }
     }
 }
+
+

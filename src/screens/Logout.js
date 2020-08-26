@@ -1,11 +1,14 @@
 import React from 'react';
-import {Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Login} from './LoginScreen';
+import {useDispatch } from 'react-redux';
+import LoginStack from '../navigations/LoginStack';
+import {removeToken} from '../actions';
 
 export default function Logout (){
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    dispatch(removeToken())
     return (
-        <Login/>
+        <LoginStack/>
     )
 }

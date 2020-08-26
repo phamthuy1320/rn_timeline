@@ -1,39 +1,36 @@
-import React,{useState,useEffect,useRef} from 'react';
-import {View,Text,TouchableOpacity,StyleSheet,Linking} from 'react-native';
+import React from 'react';
+import {View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Header from '../components/Header';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera} from 'react-native-camera';
-import QRCode from 'react-native-qrcode-svg';
 
 
 export default function CameraAccessScreen(){
     const navigation = useNavigation();
-
     const onSuccess = (e) =>{
         console.log('Scan successed',e.data);
-        /*Linking.openURL(e.data).catch(err =>
-            console.err(err)
-            )*/
+        if(e.data!=null) {
+            navigation.navigate('QRScanSuccess', {content:e.data})
+        }else {
+            alert('scan failed');
+            navigation.goBack();
+    }
     }
     return (
         <View>
             <Header
                     title = 'QR Scan'
                     iconLeft = 'arrow-back'
-                    backgroundColor = 'blue'
-                    color='#fff'
+                    backgroundColor = '#fff'
+                    color='#000'
                     fontSize = {30}
                     onPressLeft={()=>navigation.goBack()}
             />
-            {<QRCodeScanner
+            <QRCodeScanner
                 onRead={onSuccess}
-                //flashMode={RNCamera.Constants.FlashMode.torch}
-                //cameraStyle={{height:200,margin:20,}}
-                //cameraType='back'
                 topViewStyle={{margin:20}}
                 
-            />}
+            />
             
         </View>
 

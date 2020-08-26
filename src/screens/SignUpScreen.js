@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react';
 import {View,TextInput,Text,TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 
 import {styles} from './Styles/MainStyles';
 import Button from '../components/Button';
-import FBLoginButton from '../components/FBLoginButton';
 import database from '../services/firebase';
+import {setToken} from '../actions';
 
 //alert?
 function checkFillError({e,p,r}){
@@ -23,10 +24,8 @@ export default function SignUpScreen(){
     const [alertpw,setAlertpw] = useState('');
     const [alertrpw,setAlertrpw] = useState('');
   
-
     const navigation = useNavigation();
-
-    
+    const dispatch = useDispatch();
 
     useEffect( ()=>{
             email==''?setAlertem('please fill email'):setAlertem('');
@@ -37,10 +36,8 @@ export default function SignUpScreen(){
    const checkPassword = () =>{
     if (password==repassword&&checkFillError({email,password,repassword})==false){
         addAccountFb(email,password);
-        setEmail('');
-        setPassword('');
-        setRepassword('');
-        return alert('successed,press "return to Login" to Login ')
+        alert('successed,press "return to Login" to Login ');
+        dispatch(setToken(email));
     }else{
         return alert('password and verify are different!')
     }
@@ -81,7 +78,6 @@ export default function SignUpScreen(){
        <TouchableOpacity onPress={()=>navigation.goBack()}>
            <Text style={{textAlign:'center',fontWeight:'bold'}}>Return to Login</Text>
        </TouchableOpacity>
-       <FBLoginButton/>
        </View>
 
     </View>);

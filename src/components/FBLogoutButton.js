@@ -1,45 +1,33 @@
-//github taoquynh
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity , Text} from 'react-native';
 import {  AccessToken, LoginManager } from 'react-native-fbsdk';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from  '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useDispatch} from 'react-redux';
-import {setToken} from '../actions';
 
 
-// const  saveToken = async (accessToken) =>{
-//   try {
-//     await AsyncStorage.setItem('@token', accessToken);
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
+const  removeToken = async () =>{
+  try {
+    await AsyncStorage.removeItem('@token');
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export default function FBLoginButton (){
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const onLogin = async() =>{
-    await LoginManager.logInWithPermissions(['public_profile', 'email']);
-    const data = await AccessToken.getCurrentAccessToken();
-    
-    console.log(data.accessToken.toString())
-    if(data!=null){
-      // saveToken(data.accessToken.toString());
-      
-      // navigation.navigate('HomeStack');
-      dispatch(setToken(data.accessToken.toString()));
-    }else {
-      alert('Can\'t login with facebook, try sign up with new account' )
-    }
+  const onLogout = async() =>{
+    await LoginManager.logOut();
+    console.log('logout');
+    removeToken();
+    navigation.navigate('LoginStack')
   }
         
     return (
       <View style={styles.container}>
-        <TouchableOpacity style = {styles.loginButton} onPress = {onLogin} >
+        <TouchableOpacity style = {styles.loginButton} onPress = {onLogout} >
           <AntDesign name = 'facebook-square' color = '#fff' size = {20}/>
-          <Text style= {styles.title} > Login with Facebook</Text>
+          <Text style= {styles.title} > Log out </Text>
         </TouchableOpacity>
       </View>
     );
@@ -54,7 +42,6 @@ const styles = StyleSheet.create({
       backgroundColor:'blue',
       marginHorizontal:10,
       borderRadius:20,
-      borderWidth:1,
       justifyContent:'center',
      
     },

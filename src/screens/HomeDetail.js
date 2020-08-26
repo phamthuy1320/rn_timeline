@@ -6,8 +6,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
 import {deleteContact} from '../actions/Home';
 
-import AddContact from '../components/HomeComponents/AddContact';
-
 //Detail item for HomeScreen
 const ActiveState = ({active})=>{
     if (active =='active'){return  <FontAwesome name ='circle' size={20} color='green'/>}
@@ -44,33 +42,33 @@ export default function HomeDetail(){
     const route=useRoute();
     const navigation= useNavigation();
     const dispatch = useDispatch();
-    // const [showEdit,setShowEdit ] = useState(false);
+    const confirmDelete = () =>{
+        Alert.alert(
+            "Delete", 'You want delete this contact?',[
+                {
+                    text: "Cancel",
+                    onPress: () => {},
+                    style: "cancel"
+                  },
+                  { text: "OK", onPress: () => {
+                      dispatch(deleteContact(route.params?._idDelete));
+                      
+                      navigation.goBack()
+                } }
+            ]
+        )
+    }
     return (
         <View >
             <Header
                 title={' Profile'}
                 iconLeft = 'arrow-back'
-                titleRight = 'Delete'
+                titleRight = 'delete'
                 fontSize={20}
-                onPressRight={()=>Alert.alert(
-                    "Delete", 'You want delete this contact?',[
-                        {
-                            text: "Cancel",
-                            onPress: () => {},
-                            style: "cancel"
-                          },
-                          { text: "OK", onPress: () => {
-                              dispatch(deleteContact(route.params?._idDelete));
-                              navigation.goBack()
-                        } }
-                    ]
-                )}
+                onPressRight={confirmDelete}
                 onPressLeft={()=>navigation.goBack()}
             />
-            {/* <AddContact
-                modalVisible = {showEdit}
-                setModalVisible={setShowEdit(!showEdit)}
-            /> */}
+          
             <ImageBackground source={{uri:route.params?._background}} style={styles.detailBackground}>
                <View style={{position:'absolute',top:120, flexDirection:'row'}}>
                      <Avatar

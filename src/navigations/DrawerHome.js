@@ -1,15 +1,20 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {View,Text, Image} from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useSelector} from 'react-redux';
 
 import Home from '../screens/HomeScreen';
 import MenuScreen from '../screens/MenuScreen';
-import LoginStack from './LoginStack';
+// import LoginStack from './LoginStack';
+import Logout from '../screens/Logout';
+// import FBLogoutButton from '../components/FBLogoutButton';
+// import AsyncStorage from '@react-native-community/async-storage';
 
 const Drawer = createDrawerNavigator();
 
 const HeaderDrawer = (props) =>{
+ 
     return (
       <View 
         style={{
@@ -32,11 +37,28 @@ const HeaderDrawer = (props) =>{
   }
   
 export default function DrawerHome(){
+  const token = useSelector(state =>state);
+  console.log('tokenrd',token.tokenReducer )
+
     return ( 
-      <Drawer.Navigator 
-        initialRouteName='Home'
-        
-      >
+      <Drawer.Navigator initialRouteName = 'Home'>
+         
+         <Drawer.Screen
+          name='MenuScreen'
+          component={MenuScreen}
+          options={{
+            drawerLabel:()=>
+              <View>
+                <HeaderDrawer name = {token.tokenReducer}/>
+                <View  style={{flexDirection:'row'}}>
+                  <MaterialCommunityIcons name='account' size={20} />
+                  <Text style={{marginHorizontal:5}}>My Account</Text>
+                </View>
+                
+              </View>
+            
+          }}
+        />
           <Drawer.Screen 
             name='Home'
             component={Home}
@@ -49,27 +71,11 @@ export default function DrawerHome(){
               
             
             }}
-          /> 
-          <Drawer.Screen
-          name='MenuScreen'
-          component={MenuScreen}
-          options={{
-            drawerLabel:()=>
-              <View>
-                <HeaderDrawer/>
-                <View  style={{flexDirection:'row'}}>
-                  <MaterialCommunityIcons name='account' size={20} />
-                  <Text style={{marginHorizontal:5}}>My Account</Text>
-                </View>
-                
-              </View>
-            
-          }}
-        />
+          />
         
-        {<Drawer.Screen
-          name='LoginStack'
-          component={LoginStack}
+        <Drawer.Screen
+          name='Logout'
+          component={Logout}
           options={{
             drawerLabel:()=>
               <View style={{flexDirection:'row'}}>
@@ -77,7 +83,18 @@ export default function DrawerHome(){
                 <Text style={{marginHorizontal:5}}>Log out</Text>
               </View>
           }}
-        />}
+        />
+          {/* <Drawer.Screen
+          name='FBLogoutButton'
+          component={FBLogoutButton}
+          options={{
+            drawerLabel:()=>
+              <View style={{flexDirection:'row'}}>
+                <MaterialCommunityIcons name='logout' size={20} />
+                <Text style={{marginHorizontal:5}}>Log out fb</Text>
+              </View>
+          }}
+        /> */}
       </Drawer.Navigator>
     )
   }
