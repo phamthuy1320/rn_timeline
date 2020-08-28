@@ -20,16 +20,18 @@ import {setToken} from '../actions';
 export default function FBLoginButton (){
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const onLogin = async() =>{
-    await LoginManager.logInWithPermissions(['public_profile', 'email']);
+  const onLogin = async() =>{await LoginManager.logInWithPermissions(['public_profile', 'email']);
     const data = await AccessToken.getCurrentAccessToken();
+    const name  =  await AccessToken.userID;
     
     console.log(data.accessToken.toString())
+    console.log('permission', name.toString())
     if(data!=null){
       // saveToken(data.accessToken.toString());
       
       // navigation.navigate('HomeStack');
       dispatch(setToken(data.accessToken.toString()));
+      // dispatch(setToken(JSON.stringify(permission.grantedPermissions[1])));
     }else {
       alert('Can\'t login with facebook, try sign up with new account' )
     }

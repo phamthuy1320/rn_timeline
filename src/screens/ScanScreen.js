@@ -26,7 +26,7 @@ const Profile=(props)=>{
                     iconLeft = 'arrow-back'
                     backgroundColor = 'blue'
                     color='#fff'
-                    fontSize = {30}
+                    fontSize = {22}
                     onPressLeft={()=>navigation.goBack()}
                 />
             <View style={styles.avatar}>
@@ -50,7 +50,7 @@ const Profile=(props)=>{
                     value='some string value'
                     color={'#000'}
                     backgroundColor={'white'}
-                    size={200}
+                    size={150}
                     logo={{uri:props.qrCode}}
                     logoMargin={2}
                     logoSize={20}

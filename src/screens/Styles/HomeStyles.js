@@ -9,20 +9,24 @@ const styles = StyleSheet.create({
     itemContainer:{
         flexDirection:'row',
         padding:10,
-        elevation:4,
+        //  elevation:4,
         backgroundColor:'#fff',
-        margin:10,
-        borderRadius:15,
+        marginHorizontal:10,
+        // borderRadius:15,
+        borderBottomColor:'grey',
+        borderBottomWidth:1,
+        
     },
     avatarContainer:{
-
+        
     },
     imageAvatar:{
         height:50,
         aspectRatio:1 / 1,
-        borderWidth:1,
+        // borderWidth:1,
         borderRadius:50,
-        margin:10,
+        marginRight:10
+        
     },
     name:{
         fontSize:20,

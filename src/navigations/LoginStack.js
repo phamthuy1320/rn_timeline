@@ -1,15 +1,18 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import Login from '../screens/LoginScreen';
 import HomeStack from './HomeStack';
 import SignUpScreen from '../screens/SignUpScreen';
+import {setToken} from '../actions';
 
 const Stack = createStackNavigator();
 
 export default function LoginStack(){
     const token = useSelector(state=>state);
     console.log(token.tokenReducer)
+    const dispatch = useDispatch();
+    dispatch(setToken('Thuy'))
     if(token.tokenReducer==''){
     return(
      

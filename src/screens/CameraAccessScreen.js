@@ -21,9 +21,9 @@ export default function CameraAccessScreen(){
             <Header
                     title = 'QR Scan'
                     iconLeft = 'arrow-back'
-                    backgroundColor = '#fff'
-                    color='#000'
-                    fontSize = {30}
+                    backgroundColor = 'blue'
+                    color='#fff'
+                    fontSize = {22}
                     onPressLeft={()=>navigation.goBack()}
             />
             <QRCodeScanner

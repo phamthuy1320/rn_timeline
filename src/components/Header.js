@@ -20,10 +20,10 @@ const Header = (props)=> {
 
             {props.iconRight?<TouchableOpacity style={styles.headerNavigation} onPress={props.onPressRight}>
                 <Ionicons name={props.iconRight} size={props.fontSize?props.fontSize:30} color={props.color?props.color:'#000'}/>
-            </TouchableOpacity>:null}
-            {props.titleRight?<TouchableOpacity style={styles.headerNavigation} onPress={props.onPressRight}>
+            </TouchableOpacity>:props.titleRight?<TouchableOpacity style={styles.headerNavigation} onPress={props.onPressRight}>
                 <Text style={{color:'red'}}>{props.titleRight}</Text>
-            </TouchableOpacity>:null}
+            </TouchableOpacity>:<View/>}
+            
 
         </View>
     )
@@ -31,9 +31,8 @@ const Header = (props)=> {
 
 const styles=StyleSheet.create({
     headerContainer:{
-        
         elevation:5,
-        height:80,
+        height:70,
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',

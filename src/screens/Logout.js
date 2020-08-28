@@ -5,9 +5,9 @@ import LoginStack from '../navigations/LoginStack';
 import {removeToken} from '../actions';
 
 export default function Logout (){
-    const navigation = useNavigation();
     const dispatch = useDispatch();
-    dispatch(removeToken())
+    dispatch(removeToken());
+    
     return (
         <LoginStack/>
     )

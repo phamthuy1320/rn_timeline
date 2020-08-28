@@ -26,7 +26,7 @@ const Status = ({content})=>{
 
 const Avatar = (props) =>{
     return (
-        <View style={{flexDirection:'row'}}>
+        <View style={{flexDirection:'row', marginLeft:10}}>
             <Image
                     source = {{uri:props?._avatar}}
                     style={styles.detailAvatar}
@@ -58,14 +58,24 @@ export default function HomeDetail(){
             ]
         )
     }
+    const onEdit = ()=>{
+        navigation.navigate('AddContact', {
+            id:route.params?._idDelete,
+            name:route.params?._name, 
+            phone:route.params?._phone, 
+            website:route.params?._website,
+            email:route.params?._email,
+            avatarSource:route.params?._avatar
+        })
+    }
     return (
         <View >
             <Header
                 title={' Profile'}
                 iconLeft = 'arrow-back'
-                titleRight = 'delete'
+                titleRight = 'edit'
                 fontSize={20}
-                onPressRight={confirmDelete}
+                onPressRight={onEdit}
                 onPressLeft={()=>navigation.goBack()}
             />
           
@@ -104,7 +114,7 @@ const styles = StyleSheet.create({
     },
     detailBackground:{
         height:200,
-        flexDirection:'row'
+        flexDirection:'row',
     },
     detailAvatar:{
         borderRadius:90,

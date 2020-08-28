@@ -1,9 +1,5 @@
 import React ,{useState,useCallback, useEffect} from 'react';
-import {
-    View,
-    ActivityIndicator,
-    
-} from 'react-native';
+import { View,ActivityIndicator,Text, FlatList} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -79,20 +75,12 @@ export default function Home(){
                 onPressLeft={()=>{navigation.openDrawer('DrawerHome')}}
                 onPressRight={()=>setHidden(!hidden)}
             />
-
-            {hidden == false ? <SearchBar
-                showCancel={true}
-                onChangeText={(value)=>SearchFilterFunction(value)}
-                value={valueSearch}
-                containerStyle={{backgroundColor:'#fff'}}
-                lightTheme={true}
-                
-            /> : <View/>}
             <ActivityIndicator size="large" color="gray"/>
         </View>)
     }
    
     return (
+       
         <View style={styles.container}>
             <Header
                 title="contacts"
@@ -110,26 +98,34 @@ export default function Home(){
                lightTheme={true}
             /> : <View/>}
 
-            {
-            //loadingSuccess==false?<ListContact data ={dataContact}/>:<ListContact data ={dataContact1}/>
-            }
             
-            <ListContact data ={dataContact} 
+            {dataContact.length!=0?<ListContact data ={dataContact} 
                 refreshing = {isRefreshing}
                 onRefresh = {onRefresh}
-            />
+            />:
+                <FlatList
+                    data = {['Try pull to refresh']}
+                    renderItem = {
+                        ()=><Text style = {{textAlign:'center', color:'gray', marginTop:10}}>Try pull To refresh or self add a account</Text>
+                    }
+                    refreshing = {isRefreshing}
+                    onRefresh = {onRefresh}
+                />  
+            }
               {/*show modal add contact */}  
-              <AddContact 
+              {/* <AddContact 
                 modalVisible={modalVisible} 
                 setModalVisible={()=>setModalVisible(!modalVisible)}
-            />
+            /> */}
+           
                 
             <ActionButton
                 buttonColor="rgba(231,76,60,1)"
                 offsetX={20}
                 offsetY={20}
                 size={50}
-                onPress={()=>setModalVisible(true)}
+                // onPress={()=>setModalVisible(true)}
+                onPress = {()=>navigation.navigate('AddContact')}
             />
 
         </View>

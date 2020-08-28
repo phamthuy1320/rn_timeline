@@ -25,7 +25,8 @@ const Item = (props) =>{
                 _email:props?.email,
                 _website:props?.website,
                 _phone:props?.phone,
-                _idDelete:props?.id
+                _idDelete:props?.id,
+                _id:props?.id
             })}
         >
             <View style={styles.avatarContainer}>

@@ -28,4 +28,13 @@ export function deleteContact (id){
     }
 }
 
+export function cloneContact (id,name, email, website, phone,uri ) {
+    return {
+        type:ActionTypes.CLONE_CONTACT,
+        payload:{
+            id,name, email, website, phone,uri
+        }
+    }
+}
+
 

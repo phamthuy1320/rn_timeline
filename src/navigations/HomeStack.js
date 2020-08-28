@@ -1,7 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
+import HomeScreen from '../screens/HomeScreen';
 import HomeDetail from '../screens/HomeDetail';
+import AddContact from '../components/HomeComponents/AddContact';
 import ScanScreen from '../screens/ScanScreen';
 import CameraAccessScreen from '../screens/CameraAccessScreen';
 import MenuScreen from '../screens/MenuScreen';
@@ -19,11 +21,16 @@ export default function HomeStack(){
                     name = 'DrawerHome'
                     component = {DrawerHome}
                 />
-                {/* <Stack.Screen 
-                    name = 'Home'
-                    component = {Home}
-                   
-                /> */}
+                <Stack.Screen 
+                    name = 'HomeScreen'
+                    component = {HomeScreen}
+                    options={{
+                        headerTitle:'',
+                        headerStyle:{
+                            height:0
+                        }
+                    }}
+                />
                 <Stack.Screen 
                     name = 'HomeDetail'
                     component = {HomeDetail}
@@ -33,6 +40,10 @@ export default function HomeStack(){
                             height:0
                         }
                     }}
+                />
+                <Stack.Screen
+                    name = 'AddContact'
+                    component = {AddContact}
                 />
                 <Stack.Screen 
                     name = 'ScanScreen'
