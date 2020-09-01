@@ -34,7 +34,7 @@ const Transaction = (props) =>{
             data={props.data}
             renderItem={
                 ({item})=> 
-                <View style={{marginHorizontal:10}}>
+                <View style={{marginHorizontal:10,flex:1}}>
                     <ItemTransaction
                     key={item.name}
                     image={item.image}
@@ -57,13 +57,14 @@ const styles = StyleSheet.create({
     productContainer:{
         backgroundColor:'#fff',
         flexDirection:'row',
-        borderRadius:20,
-        elevation:4,
-        marginVertical:5,
+        // borderRadius:20,
+        // elevation:4,
+        // marginVertical:5,
         paddingVertical:10,
         justifyContent:'space-between',
         paddingHorizontal:10,
-        flex:1
+        flex:1,
+        borderBottomWidth:1
     },
     img:{
         height:50,

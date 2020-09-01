@@ -24,8 +24,8 @@ export default function Home(){
     const [valueSearch,setValueSearch] = useState('');
     const navigation = useNavigation();
     const [isRefreshing, setIsRefreshing] = useState(true);//to pull refresh
-    const [modalVisible, setModalVisible] = useState(false);
 
+    let tempData = [...dataContact]
     const  onRefresh =useCallback(()=>{
          setIsRefreshing(true);
          try{
@@ -39,8 +39,6 @@ export default function Home(){
                     //console.log('getHomeData',_contacts)
                     console.log('ggetHomeData',_contacts.length)
                     dispatch(getData(_contacts))
-                    
-                    setIsRefreshing(false);
                      
                  });
              });
@@ -52,28 +50,37 @@ export default function Home(){
 
      useEffect(()=>{
          setDataContact(contacts.homeReducer);
+        
          setIsRefreshing(false)
-        },[contacts.homeReducer.length])
+        },[contacts.homeReducer, dataContact])
 
      const SearchFilterFunction = (text) =>{
-        const newData = _.filter(contacts.homeReducer,function(item) {
-          const itemData = item.user.name ? item.user.name.toUpperCase() : ''.toUpperCase();
-          const textData = text.toUpperCase();
-          return itemData.indexOf(textData) > -1;
-        });
-        setDataContact(newData);
-        setValueSearch(text);
-
+        tempData = [...contacts.homeReducer];
+         console.log(tempData)
+            
+           const newData = tempData.filter(item =>{
+                const itemData = item.user.name? item.user.name.toUpperCase():''.toUpperCase();
+                const textData = text.toUpperCase();
+                return itemData.match(textData);
+            })
+            setValueSearch(text);
+            console.log('new data', newData.length)
+            setDataContact(newData);
       };
 
+      const _hiddenSearch = () =>{
+           SearchFilterFunction('');   
+            setHidden(!hidden)
+      }
     if(isRefreshing===true){
         return (<View style={styles.container}>
-            <Header
-                title="contacts"
+           <Header
+                title="Contacts"
                 iconLeft="menu"
                 iconRight="search"
+                fontSize = {22}
                 onPressLeft={()=>{navigation.openDrawer('DrawerHome')}}
-                onPressRight={()=>setHidden(!hidden)}
+                onPressRight={_hiddenSearch}
             />
             <ActivityIndicator size="large" color="gray"/>
         </View>)
@@ -83,11 +90,12 @@ export default function Home(){
        
         <View style={styles.container}>
             <Header
-                title="contacts"
+                title="Contacts"
                 iconLeft="menu"
                 iconRight="search"
-                onPressLeft={()=>{navigation.openDrawer('DrawerHome')}}
-                onPressRight={()=>setHidden(!hidden)}
+                fontSize = {22}
+                onPressLeft={()=>navigation.openDrawer('DrawerHome')}
+                onPressRight={_hiddenSearch}
             />
 
             {hidden == false ? <SearchBar
@@ -99,24 +107,11 @@ export default function Home(){
             /> : <View/>}
 
             
-            {dataContact.length!=0?<ListContact data ={dataContact} 
+            {(dataContact!=null&&dataContact.length>0)?<ListContact data ={dataContact} 
                 refreshing = {isRefreshing}
                 onRefresh = {onRefresh}
-            />:
-                <FlatList
-                    data = {['Try pull to refresh']}
-                    renderItem = {
-                        ()=><Text style = {{textAlign:'center', color:'gray', marginTop:10}}>Try pull To refresh or self add a account</Text>
-                    }
-                    refreshing = {isRefreshing}
-                    onRefresh = {onRefresh}
-                />  
+            />:onRefresh()  
             }
-              {/*show modal add contact */}  
-              {/* <AddContact 
-                modalVisible={modalVisible} 
-                setModalVisible={()=>setModalVisible(!modalVisible)}
-            /> */}
            
                 
             <ActionButton
@@ -124,7 +119,6 @@ export default function Home(){
                 offsetX={20}
                 offsetY={20}
                 size={50}
-                // onPress={()=>setModalVisible(true)}
                 onPress = {()=>navigation.navigate('AddContact')}
             />
 

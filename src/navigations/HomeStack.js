@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import HomeScreen from '../screens/HomeScreen';
+import Home from '../screens/HomeScreen';
 import HomeDetail from '../screens/HomeDetail';
 import AddContact from '../components/HomeComponents/AddContact';
 import ScanScreen from '../screens/ScanScreen';
@@ -22,8 +22,8 @@ export default function HomeStack(){
                     component = {DrawerHome}
                 />
                 <Stack.Screen 
-                    name = 'HomeScreen'
-                    component = {HomeScreen}
+                    name = 'Home'
+                    component = {Home}
                     options={{
                         headerTitle:'',
                         headerStyle:{
@@ -77,7 +77,7 @@ export default function HomeStack(){
                     }}
                    
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                     name = 'MenuScreen'
                     component = {MenuScreen}
                     options= {{
@@ -86,7 +86,7 @@ export default function HomeStack(){
                             height:0
                         }
                     }}
-                />
+                /> */}
                
             </Stack.Navigator>
     )

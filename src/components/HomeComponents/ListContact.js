@@ -49,63 +49,33 @@ const Item = (props) =>{
     );
 };
 const ListContact = (props) =>{
-
     return (
         <FlatList
             data = {props.data}
             renderItem =
                 {({item})=>
                     <Item
-                        key={item.user.id}
-                        id ={item.user.id}
-                        uri={item.img.thumbnailUrl ? item.img.thumbnailUrl : 'https://iupac.org/wp-content/uploads/2018/05/default-avatar-300x300.png'}
-                        uribackground={item.img.url ? item.img.url : 'https://iupac.org/wp-content/uploads/2018/05/default-avatar-300x300.png'}
-                        name={item.user.name}
+                        key={item.user?.id}
+                        id ={item.user?.id}
+                        uri={item.img?.thumbnailUrl ? item.img?.thumbnailUrl : 'https://iupac.org/wp-content/uploads/2018/05/default-avatar-300x300.png'}
+                        uribackground={item.img?.url ? item.img?.url : 'https://iupac.org/wp-content/uploads/2018/05/default-avatar-300x300.png'}
+                        name={item.user?.name}
 
-                        active={item.active ? item.active : 'no active'}
-                        status={item.img.title ? item.img.title : 'no status'}
-                        qrCode={item.qrCode ? item.qrCode : 'no qrCode'}
+                        active={item?.active ? item?.active : 'no active'}
+                        status={item.img?.title ? item.img?.title : 'no status'}
+                        qrCode={item?.qrCode ? item?.qrCode : 'no qrCode'}
 
-                        email={item.user.email ? item.user.email : 'no email'}
-                        website={item.user.website ? item.user.website : 'no website'}
-                        phone={item.user.phone ? item.user.phone : 'no phone'}
+                        email={item.user?.email ? item.user?.email : 'no email'}
+                        website={item.user?.website ? item.user?.website : 'no website'}
+                        phone={item.user?.phone ? item.user?.phone : 'no phone'}
                     />
                 }
             
-            keyExtractor = {(item,idx)=>item.id + idx.toString()}
+            keyExtractor = {(item,idx)=> idx.toString()}
             refreshing={props?.refreshing}
             onRefresh = {props?.onRefresh}
         />
     );
 };
-// const ListContact = (props) =>{
-
-//     return (
-//         <FlatList
-//             data = {props.data}
-//             renderItem =
-//                 {({item})=>
-//                     <Item
-//                         key={item.id}
-//                         uri={item.thumbnailUrl ? item.thumbnailUrl : 'https://iupac.org/wp-content/uploads/2018/05/default-avatar-300x300.png'}
-//                         uribackground={item.avatar ? item.avatar : 'https://iupac.org/wp-content/uploads/2018/05/default-avatar-300x300.png'}
-//                         name={item.name}
-
-//                         active={item.active ? item.active : 'no active'}
-//                         status={item.status ? item.status : 'no status'}
-//                         qrCode={item.qrCode ? item.qrCode : 'no qrCode'}
-
-//                         email={item.email ? item.user.email : 'no email'}
-//                         website={item.website ? item.website : 'no website'}
-//                         phone={item.phone ? item.phone : 'no phone'}
-//                     />
-//                 }
-            
-//             keyExtractor = {(item,idx)=>item.id + idx.toString()}
-//             refreshing={props?.refreshing}
-//             onRefresh = {props?.onRefresh}
-//         />
-//     );
-// };
 
 export default ListContact;

@@ -1,47 +1,36 @@
 import React,{useState,useEffect} from 'react';
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-} from 'react-native';
+import {View,Text,TextInput,TouchableOpacity,Image, ScrollView} from 'react-native';
 
 import {styles} from './Styles/MainStyles';
 import Button from '../components/Button';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
+import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import database from '../services/firebase';
 import FBLoginButton from '../components/FBLoginButton';
 import {setToken} from '../actions';
+import {GetImage} from '../components/GetImage';
 
-//const ACCOUNT_LOGIN ={'email':'','password':''};
-//const account ={'name':'0','password':'0'};
 export default function Login() {
     const [email,setEmail]= useState(null);
     const [password,setPassword] = useState(null); 
     const [alertEmail,setAlertEmail] = useState('');
     const [alertPassword, setAlertPassword] = useState('');
-    const navigation = useNavigation();
     const [hasAccount, setHasAccount] = useState(false);
+    const [avatar, setAvatar] = useState('https://iupac.org/wp-content/uploads/2018/05/default-avatar-300x300.png')
 
+    const navigation = useNavigation();
     const dispatch = useDispatch();
     const token = useSelector(state =>state);
-    
-    const saveToken = async(accessToken) =>{
-        //account thuong
-        await AsyncStorage.setItem('@accessToken', accessToken);
-        const token = await AsyncStorage.getItem('@accessToken');
-       
-    }
 
     useEffect(()=>{
         try{
              database.ref('account').orderByValue().startAt(0).once("value", function(snapshot) {
                   snapshot.forEach(function(data) {
                       if(data.child('name').val()==email&&data.child('password').val()==password){
-                            setHasAccount(true)
+                            setHasAccount(true);
+                            setAvatar(data.child('uri').val())
+                            // dispatch(setToken(avatar, email))
                         }
                    })
                  });
@@ -49,11 +38,14 @@ export default function Login() {
         email==''? setAlertEmail('please fill email'):setAlertEmail('');
         password==''?setAlertPassword('please fill password'):setAlertPassword('');
     },[email,password]);
+    const getImage = ()=>{
+        GetImage(setAvatar);
+        
+    }
 
     const accountCanLogin = () =>{
         if(hasAccount===true){
-            saveToken(email);
-            dispatch(setToken(email));
+            dispatch(setToken(avatar,email));
             console.log(token.tokenReducer)
             navigation.navigate('HomeStack')}
         else if(hasAccount===false){
@@ -61,18 +53,25 @@ export default function Login() {
         else alert("fill all please");
     }
     return(
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.welcomeContainer}>
                 <Text style={styles.welcome}>
-                    Welcome to Login
+                    Login
                 </Text>
             </View>
+            
 
             <View style = {styles.inputContainer}>
+                <View style = {styles.avatarContainer}>
+                    {/*<Image source = {{uri:avatar}} style = {styles.avatar}/>
+                     <TouchableOpacity  onPress={getImage}>
+                        <Text style={{textAlign:'center', color:'blue'}}>Set image</Text>
+                    </TouchableOpacity> */}
+                </View>
                 <TextInput
                     style={styles.input}
                     onChangeText={text=>setEmail(text)}
-                    placeholder='Email...'
+                    placeholder='User name...'
                     textContentType='emailAddress'
                     value={email}
                 />
@@ -94,6 +93,6 @@ export default function Login() {
                 </TouchableOpacity>
                 <FBLoginButton/>
             </View>
-        </View>
+        </ScrollView>
     );
 }

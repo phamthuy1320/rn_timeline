@@ -12,6 +12,7 @@ import {
     TouchableOpacity,
     StyleSheet,
     Image,
+    ViewBase,
  } from 'react-native';
 import Header from '../components/Header';
 import InoIcons from 'react-native-vector-icons/Ionicons';
@@ -35,9 +36,9 @@ const Profile=(props)=>{
                     style={styles.imgAvatar}
                 />
                 <Text style={styles.name}>{props.name}</Text>
-                <TouchableOpacity >
+                <View >
                     <Text style={styles.verify}>Verify User</Text>
-                </TouchableOpacity>
+                </View>
             </View>
 
             <View style={styles.QRcode}>

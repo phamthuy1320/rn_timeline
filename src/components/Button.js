@@ -13,18 +13,17 @@ const Button = (props)=>{
 
 const styles=StyleSheet.create({
     button:{
-        height:50,
-        //width:'90%',
+        height:40,
         borderWidth:1,
         borderColor:'#f85c5e',
         backgroundColor:'#f85c5e',
         borderRadius:25,
-        margin:10,
+        margin:30,
         justifyContent:'center'
     },
     labelButton:{
         textAlign:'center',
-        fontSize:20,
+        // fontSize:20,
         fontWeight:'bold',
         color:'#fff',
     },

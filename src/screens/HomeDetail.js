@@ -1,10 +1,9 @@
-import React,{useCallback, useState} from 'react';
+import React from 'react';
 import {View,Text,Button,StyleSheet,ScrollView,Image,TouchableOpacity,ImageBackground, Alert} from 'react-native';
 import {useRoute,useNavigation} from '@react-navigation/native'
 import Header from '../components/Header';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useDispatch} from 'react-redux';
-import {deleteContact} from '../actions/Home';
+
 
 //Detail item for HomeScreen
 const ActiveState = ({active})=>{
@@ -41,26 +40,10 @@ const Avatar = (props) =>{
 export default function HomeDetail(){
     const route=useRoute();
     const navigation= useNavigation();
-    const dispatch = useDispatch();
-    const confirmDelete = () =>{
-        Alert.alert(
-            "Delete", 'You want delete this contact?',[
-                {
-                    text: "Cancel",
-                    onPress: () => {},
-                    style: "cancel"
-                  },
-                  { text: "OK", onPress: () => {
-                      dispatch(deleteContact(route.params?._idDelete));
-                      
-                      navigation.goBack()
-                } }
-            ]
-        )
-    }
     const onEdit = ()=>{
         navigation.navigate('AddContact', {
             id:route.params?._idDelete,
+            idDelete:route.params?._isDelete,
             name:route.params?._name, 
             phone:route.params?._phone, 
             website:route.params?._website,
@@ -73,18 +56,16 @@ export default function HomeDetail(){
             <Header
                 title={' Profile'}
                 iconLeft = 'arrow-back'
-                titleRight = 'edit'
+                titleRight = 'Edit'
+
                 fontSize={20}
                 onPressRight={onEdit}
                 onPressLeft={()=>navigation.goBack()}
             />
-          
+            <ScrollView>
             <ImageBackground source={{uri:route.params?._background}} style={styles.detailBackground}>
                <View style={{position:'absolute',top:120, flexDirection:'row'}}>
-                     <Avatar
-                        _avatar={route.params?._avatar}
-                        // _active={route.params?._active}
-                        />
+                     <Avatar _avatar={route.params?._avatar}/>
                         
                     <View style={styles.notification}>
                         <Text style={styles.name}>{route.params?._name?route.params?._name:'no name'}</Text>
@@ -99,12 +80,12 @@ export default function HomeDetail(){
             <View style={{marginTop:60, backgroundColor:'#fff',paddingTop:10, marginHorizontal:10}}>
                 <TouchableOpacity onPress={()=>navigation.navigate('ScanScreen',{name:route.params?._name, avatar:route.params?._avatar,qrCode:route.params?._qrCode})}>
                     <Text style={{color:'blue',textAlign:'center',marginBottom:20}}>Go to QRCode?</Text>
-                    
                 </TouchableOpacity>
             </View>
                 <View  style={styles.statusContainer}/>
                     <Status content = {route.params?._status?route.params?._status:'this is detail'}/>
-                </View>
+            </ScrollView>
+        </View>
     )
 }
 

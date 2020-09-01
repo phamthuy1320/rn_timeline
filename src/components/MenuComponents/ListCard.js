@@ -8,7 +8,7 @@ const ListCard = (props) => {
            data={props.data}
            horizontal={true}
            renderItem={
-               ({item,idx})=> 
+               ({item})=> 
                <BankCard
                    key={item.id}
                    curBalance={item.curBalance}

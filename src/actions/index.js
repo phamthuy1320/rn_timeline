@@ -1,10 +1,10 @@
 import * as ActionTypes from '../actionTypes/ActionTypes';
 
-export function setToken(accessToken){
+export function setToken(uri,accessToken){
     return {
         type:ActionTypes.SET_TOKEN,
         payload:{
-            accessToken
+            uri,accessToken
         }
     }
 }
@@ -14,3 +14,4 @@ export function removeToken(){
         type:ActionTypes.REMOVE_TOKEN
     }
 }
+

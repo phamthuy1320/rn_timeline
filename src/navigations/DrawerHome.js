@@ -1,110 +1,123 @@
 import React, {useState} from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {View,Text, Image, TouchableOpacity} from 'react-native';
+import {createDrawerNavigator } from '@react-navigation/drawer';
+import {useNavigation} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack'
+import {View,Text, Image, TouchableOpacity, StyleSheet, ScrollView} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
 
 import Home from '../screens/HomeScreen';
 import MenuScreen from '../screens/MenuScreen';
-// import LoginStack from './LoginStack';
 import Logout from '../screens/Logout';
+import CameraAccessScreen from '../screens/CameraAccessScreen';
 import {GetImage} from '../components/GetImage';
-// import FBLogoutButton from '../components/FBLogoutButton';
-// import AsyncStorage from '@react-native-community/async-storage';
 
-const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
-const HeaderDrawer = (props) =>{
-    const [image, setImage] = useState('https://iupac.org/wp-content/uploads/2018/05/default-avatar-300x300.png')
-    
-    const getImage = () =>{
-      console.log('image',image)
-      GetImage(setImage)
-    }
-    return (
-      <View 
-        style={{
-          marginTop:20,
-          marginHorizontal:10, 
-          marginBottom:50,
-          justifyContent:'center', 
-          alignItems:'center',
-          width:'100%',
-          
-          }}>
+const StackHome = () =>{
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name = 'Home'
+        component = {Home}
+      />
+      <Stack.Screen
+        name = 'MenuScreen'
+        component = {MenuScreen}
+      />
+      <Stack.Screen
+        name = 'Logout'
+        component = {Logout}
+      />
+    </Stack.Navigator>
+  )
+}
+
+const HeaderDrawer = ()=>{
+  const token = useSelector(state=>state);
+  const navigation = useNavigation()
+  return (
+    <View>
+    <View style = {styles.headerDrawer}>
         <Image
-              source = {{uri:image}}
-              style={{height:150,aspectRatio:1/1,borderRadius:90}}
-          />
-          <TouchableOpacity onPress = {getImage}>
-            <Text>Edit Avatar</Text>
-          </TouchableOpacity>
-          <Text style={{fontSize:18}}>{props?.name}</Text>
-          <Text>{props?.address}</Text>
-      </View>
-    )
-  }
-  
-export default function DrawerHome(){
-  const token = useSelector(state =>state);
-  console.log('tokenrd',token.tokenReducer );
+          source = {{uri:token.tokenReducer.uri}}
+          style = {styles.avatarDrawer}
+        />
+      <Text style = {styles.userName}>{token.tokenReducer.user}</Text>
+    </View>
+    <ScrollView style = {styles.listItem}>
+      <TouchableOpacity style = {styles.buttonDrawer} onPress = {()=>navigation.navigate('MenuScreen')}>
+        <MaterialCommunityIcons name = 'account' size ={22}/>
+        <Text style = {styles.buttonTitle}>My Account</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style = {styles.buttonDrawer} onPress = {()=>navigation.navigate('Home')}>
+        <MaterialCommunityIcons name = 'home' size = {22} />
+        <Text style = {styles.buttonTitle}>Home</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style = {styles.buttonDrawer} onPress = {()=>navigation.navigate('Logout')}>
+        <MaterialCommunityIcons name = 'logout' size = {22} />
+        <Text style = {styles.buttonTitle}>Log Out</Text>
+      </TouchableOpacity>
+      </ScrollView>
+    </View>
+  )
+}
 
-    return ( 
-      <Drawer.Navigator initialRouteName = 'Home'>
-         
-         <Drawer.Screen
-          name='MenuScreen'
-          component={MenuScreen}
-          options={{
-            drawerLabel:()=>
-              <View>
-                <HeaderDrawer name = {token.tokenReducer}/>
-                <View  style={{flexDirection:'row'}}>
-                  <MaterialCommunityIcons name='account' size={20} />
-                  <Text style={{marginHorizontal:5}}>My Account</Text>
-                </View>
-                
-              </View>
-            
-          }}
-        />
-          <Drawer.Screen 
-            name='Home'
-            component={Home}
-            options={{
-              drawerLabel:()=>
-                <View style={{flexDirection:'row'}}>
-                  <MaterialCommunityIcons name='home' size={20} />
-                  <Text style={{marginHorizontal:5}}>Home</Text>
-                </View>
-              
-            
-            }}
-          />
-        
-        <Drawer.Screen
-          name='Logout'
-          component={Logout}
-          options={{
-            drawerLabel:()=>
-              <View style={{flexDirection:'row'}}>
-                <MaterialCommunityIcons name='logout' size={20} />
-                <Text style={{marginHorizontal:5}}>Log out</Text>
-              </View>
-          }}
-        />
-          {/* <Drawer.Screen
-          name='FBLogoutButton'
-          component={FBLogoutButton}
-          options={{
-            drawerLabel:()=>
-              <View style={{flexDirection:'row'}}>
-                <MaterialCommunityIcons name='logout' size={20} />
-                <Text style={{marginHorizontal:5}}>Log out fb</Text>
-              </View>
-          }}
-        /> */}
-      </Drawer.Navigator>
-    )
+const Drawer = createDrawerNavigator()
+
+export default function DrawerHome (){
+  return (
+    <Drawer.Navigator 
+      drawerContent = {()=><HeaderDrawer/>}
+    >
+      {/* <Drawer.Screen
+        name = 'StackHome'
+        component = {StackHome}
+      /> */}
+      <Drawer.Screen
+        name = 'Home'
+        component = {Home}
+      />
+      <Drawer.Screen
+        name = 'MenuScreen'
+        component = {MenuScreen}
+      />
+      <Drawer.Screen
+        name = 'Logout'
+        component = {Logout}
+      />
+    </Drawer.Navigator>
+  )
+}
+
+const styles = StyleSheet.create({
+  buttonDrawer:{
+    flexDirection:'row',
+    height:40,
+    width:'90%',
+    
+  },
+  buttonTitle:{
+    paddingHorizontal:20
+  },
+  headerDrawer:{
+   height:200,
+   borderBottomWidth:1,
+   marginTop:50
+    
+  },
+  avatarDrawer:{
+    height:150,
+    aspectRatio:1/1,
+    borderRadius:90,
+    backgroundColor:'gray',
+    alignSelf:'center'
+  },
+  userName:{
+    textAlign:'center'
+  },
+  listItem:{
+    marginLeft:20,
+    marginTop:20
   }
-  
+})

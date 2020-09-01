@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {View, Text, TouchableOpacity,TextInput, StyleSheet,Modal,Image, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity,TextInput, StyleSheet,Image, ScrollView, Alert} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import * as _ from 'lodash';
@@ -7,26 +7,10 @@ import * as _ from 'lodash';
 import {addContact, cloneContact, deleteContact} from '../../actions/Home';
 import {GetImage} from '../GetImage';
 import Header from '../Header';
-// const HeaderModal = (props) =>{
-//     return (
-//         <View style={styles.headerStyle}>
-//             <TouchableOpacity onPress={props.setModalVisible}>
-//                 <Text style={{color:'blue'}}>Cancel</Text>
-//             </TouchableOpacity>
-           
-//             <Text style={{fontSize:16}}>New Contact</Text>
-//             <TouchableOpacity  onPress={props.dispatch}>
-//                 <Text style={{color:'blue'}}>OK</Text>
-//             </TouchableOpacity>
-           
-//         </View>
-//     )
-// }
-
 export default function AddContact(){
     const dispatch = useDispatch();
     const route = useRoute();
-    const [isEdit, setIsEdit] = route.params?.name?useState(true): useState(false);
+    let isEdit = route.params?.name?true: false;
     const [name, setName] =  route.params?.name?useState(route.params?.name): useState('');
     const [email, setEmail] = route.params?.email?useState(route.params?.email): useState('');
     const [website, setWebsite] =route.params?.website?useState(route.params?.website): useState('');
@@ -45,31 +29,31 @@ export default function AddContact(){
     }
     const onDoneEdit = () =>{
       if(name!=''|| email!=''|| website!=''|| phone!=''){
-        // dispatch(addContact(name, email, website, phone,avatarSource));
-        // dispatch(deleteContact(route.params?.id))
-        
-        dispatch(cloneContact(route.params?.id, name, email, website, phone,avatarSource))
-        
-          
+        dispatch(cloneContact(route.params?.id,name, email, website, phone,avatarSource))
       }else {
         alert('contact can\'t edit' )
       }
       navigation.popToTop();
       
     }
+    const confirmDelete = () =>{
+      Alert.alert(
+          "Delete", 'You want delete this contact?',[
+              {
+                  text: "Cancel",
+                  onPress:()=>{},
+                  style: "cancel"
+                },
+                { text: "OK", onPress: () => {
+                    dispatch(deleteContact(route.params?.id));
+                    navigation.popToTop()
+              } }
+          ]
+      )
+  }
+    
     return (   
-          //   <Modal
-          //    animationType="slide"
-          //    transparent={true}
-          //    visible={props.modalVisible}
-          //    onRequestClose={() => {
-          //      Alert.alert("Modal has been closed.");
-          //    }}
-          //  >
                <View style={styles.modalView}>
-                   {/* <HeaderModal setModalVisible={props.setModalVisible} 
-                        dispatch = {onDone}
-                    /> */}
                     <View style = {styles.header}>
                       <Header
                         iconLeft = 'arrow-back'
@@ -91,7 +75,7 @@ export default function AddContact(){
                     <TouchableOpacity onPress={()=>{GetImage(setAvatarSource)}}>
                         <Text style={{color:'blue', textAlign:'center'}}>Edit avatar</Text>
                     </TouchableOpacity>
-                    <View style={{width:'90%'}}>
+                    <View style={styles.infoContainer}>
                         <TextInput
                                 style={styles.input}
                                 placeholder='name...'
@@ -116,13 +100,14 @@ export default function AddContact(){
                                 onChangeText = {(text)=>setPhone(text)}
                                 value={phone}
                         />
-                    </View>
+                       {/* <DeleteButton id={route.params?.idDelete}/> */}
+                       <TouchableOpacity onPress = {confirmDelete} style = {styles.button}>
+                          <Text style = {styles.titleButton}>Delete this Contact</Text>
+                      </TouchableOpacity>
+                      </View>
                     </ScrollView>
                    
                  </View>
-               
-          //  </Modal>
-       
     )
 }
 
@@ -141,6 +126,9 @@ const styles= StyleSheet.create({
   avatar:{
     height:200,width:'100%'
   },
+  infoContainer:{
+    width:'100%'
+  },
   input:{
     height:40,
     borderBottomWidth:1,
@@ -155,5 +143,18 @@ const styles= StyleSheet.create({
     flexDirection:'row', 
     justifyContent:'space-between',
     paddingHorizontal:10},
+    button:{
+      backgroundColor:'red',
+      height:40,
+      borderRadius:15,
+      width:'40%',
+      alignSelf:'center',
+      alignContent:'center',
+      justifyContent:'center'
+    },
+    titleButton:{
+      color:'#fff',
+      textAlign:'center',
+    }
       
 })
