@@ -19,7 +19,7 @@
     "axios": "^0.19.2",
     "feather-icons-react": "^0.4.1",
     "firebase": "^7.18.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "react": "16.13.1",
     "react-native": "0.63.2",
     "react-native-action-button": "^2.8.5",
